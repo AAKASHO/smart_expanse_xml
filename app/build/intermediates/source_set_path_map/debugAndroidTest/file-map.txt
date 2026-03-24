@@ -1,0 +1,6 @@
+com.smartexpense.ai.test.app-core-1.5.0-0 /Users/akashkumar/.gradle/caches/transforms-3/21eb16c354808585939c1773706ccb5a/transformed/core-1.5.0/res
+com.smartexpense.ai.test.app-annotation-experimental-1.3.0-1 /Users/akashkumar/.gradle/caches/transforms-3/4bb8ee7f70c022af2367fb6ac38ea29c/transformed/annotation-experimental-1.3.0/res
+com.smartexpense.ai.test.app-androidTest-2 /Users/akashkumar/Documents/Smart Expense/app/build/generated/res/resValues/androidTest/debug
+com.smartexpense.ai.test.app-mergeDebugAndroidTestResources-3 /Users/akashkumar/Documents/Smart Expense/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.smartexpense.ai.test.app-mergeDebugAndroidTestResources-4 /Users/akashkumar/Documents/Smart Expense/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.smartexpense.ai.test.app-merged_res-5 /Users/akashkumar/Documents/Smart Expense/app/build/intermediates/merged_res/debugAndroidTest

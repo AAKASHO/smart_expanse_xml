@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Smart Expense</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_add">Add</string>
+    <string name="nav_insights">Insights</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Dashboard -->
+    <string name="monthly_spending">Monthly Spending</string>
+    <string name="budget_format">₹%1$s / ₹%2$s</string>
+    <string name="budget_used_format">%1$d%% of budget used</string>
+    <string name="remaining_format">₹%1$s Remaining</string>
+    <string name="ai_insights">AI Insights</string>
+    <string name="view_all">View All</string>
+    <string name="recent_activity">Recent Activity</string>
+    <string name="view_all_transactions">VIEW ALL TRANSACTIONS</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="no_transactions">No transactions yet. Tap + to add your first expense!</string>
+
+    <!-- Add Expense -->
+    <string name="enter_amount">Enter Amount</string>
+    <string name="ai_categorizing">AI categorizing enabled</string>
+    <string name="category">Category</string>
+    <string name="cat_food">Food</string>
+    <string name="cat_travel">Travel</string>
+    <string name="cat_bills">Bills</string>
+    <string name="cat_shopping">Shopping</string>
+    <string name="cat_other">Other</string>
+    <string name="transaction_date">Transaction Date</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="upi">UPI</string>
+    <string name="cash">Cash</string>
+    <string name="card">Card</string>
+    <string name="note_optional">Note (Optional)</string>
+    <string name="note_hint">What was this for? (e.g., Weekly groceries at Whole Foods)</string>
+    <string name="done">Done</string>
+
+    <!-- Transactions -->
+    <string name="search_hint">Search transactions, merchants, or notes…</string>
+    <string name="filters">Filters</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="auto_synced">AUTO-SYNCED</string>
+
+    <!-- Analytics -->
+    <string name="analytics_insights">Analytics &amp; Insights</string>
+    <string name="monthly">Monthly</string>
+    <string name="weekly">Weekly</string>
+    <string name="spending_trend">Spending Trend</string>
+    <string name="distribution">Distribution</string>
+    <string name="highest_daily_spend">Highest Daily Spend</string>
+    <string name="most_expensive_category">Most Expensive Category</string>
+    <string name="smart_saving_opportunity">Smart Saving Opportunity</string>
+    <string name="optimize_budget">Optimize Budget</string>
+
+    <!-- Settings -->
+    <string name="settings_sync">Settings &amp; Sync</string>
+    <string name="settings_subtitle">Configure your cognitive financial assistant.</string>
+    <string name="cloud_backup">Cloud Backup &amp; Sync</string>
+    <string name="connect_google">Connect with Google</string>
+    <string name="automation_safety">Automation &amp; Safety</string>
+    <string name="sms_parsing">SMS Parsing</string>
+    <string name="sms_parsing_desc">Auto-detect bank transaction messages</string>
+    <string name="budget_alerts">Budget Alerts</string>
+    <string name="budget_alerts_desc">Notify when reaching 80% budget</string>
+    <string name="daily_reminder">Daily Logging Reminders</string>
+    <string name="daily_reminder_desc">Gentle budget records fresh</string>
+    <string name="security_data">Security &amp; Data</string>
+    <string name="privacy_security">Privacy &amp; Security</string>
+    <string name="export_csv">Export Data (CSV)</string>
+    <string name="clear_cache">Clear All Cache</string>
+    <string name="ai_recommendation">AI RECOMMENDATION</string>
+    <string name="sms_recommendation">Users who enable SMS parsing are 40%% more likely to stick to their budget.</string>
+    <string name="app_version">Smart Expense v1.0</string>
+
+    <!-- Insights -->
+    <string name="budget_warning">Budget Warning</string>
+    <string name="trend_detection">Trend Detection</string>
+    <string name="top_category">Top Category</string>
+    <string name="critical">Critical</string>
+    <string name="pattern">Pattern</string>
+    <string name="top_spend">Top Spend</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_reminders">Daily Reminders</string>
+    <string name="notification_channel_budget">Budget Alerts</string>
+    <string name="reminder_title">Don\'t forget to log expenses 💰</string>
+    <string name="reminder_text">Keep your financial records up to date!</string>
+    <string name="budget_alert_title">Budget Alert ⚠️</string>
+    <string name="budget_alert_text">You\'ve used %1$d%% of your monthly budget.</string>
+
+    <!-- Currency -->
+    <string name="rupee_symbol">₹</string>
+    <string name="amount_format">₹%1$s</string>
+    <string name="amount_negative_format">- ₹%1$s</string>
+    <string name="amount_positive_format">+ ₹%1$s</string>
+</resources>

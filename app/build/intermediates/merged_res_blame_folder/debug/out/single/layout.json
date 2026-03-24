@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/fragment_add_expense.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_add_expense.xml"
+    },
+    {
+        "merged": "com.smartexpense.ai.app-mergeDebugResources-59:/layout/fragment_dashboard.xml",
+        "source": "com.smartexpense.ai.app-main-62:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/fragment_transactions.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_transactions.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/item_transaction.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/item_transaction.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/activity_main.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/item_transaction_header.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/item_transaction_header.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/item_transaction_simple.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/item_transaction_simple.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/fragment_settings.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/fragment_dashboard.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-mergeDebugResources-59:/layout/fragment_analytics.xml",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_analytics.xml"
+    }
+]

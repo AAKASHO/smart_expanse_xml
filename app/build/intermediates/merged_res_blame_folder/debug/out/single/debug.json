@@ -1,0 +1,122 @@
+[
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_activity_main.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_category_selected.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_category_selected.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_notification.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_settings.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_item_transaction_simple.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/item_transaction_simple.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_fragment_transactions.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_transactions.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/color_bottom_nav_colors.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/color/bottom_nav_colors.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_insights.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_insights.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_ai_summary.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_ai_summary.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_home.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_hero_card.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_hero_card.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_insight_card.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_insight_card.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_fragment_analytics.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_analytics.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_add_circle.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_add_circle.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_history.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_history.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_item_transaction.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/item_transaction.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.smartexpense.ai.app-merged_res-60:/layout_fragment_dashboard.xml.flat",
+        "source": "com.smartexpense.ai.app-main-62:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_fragment_add_expense.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_add_expense.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_progress_bar.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_progress_bar.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_category_unselected.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_category_unselected.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/drawable_bg_search_bar.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/drawable/bg_search_bar.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_item_transaction_header.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/item_transaction_header.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_fragment_dashboard.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/menu_bottom_nav_menu.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/navigation_nav_graph.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/navigation/nav_graph.xml"
+    },
+    {
+        "merged": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-merged_res-60:/layout_fragment_settings.xml.flat",
+        "source": "/Users/akashkumar/.gradle/daemon/8.5/com.smartexpense.ai.app-main-62:/layout/fragment_settings.xml"
+    }
+]
