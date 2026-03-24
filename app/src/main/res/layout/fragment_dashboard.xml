@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface"
@@ -45,7 +46,8 @@
                 android:id="@+id/iv_profile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_category_unselected"
+                app:bindingRadius="20dp"
+                app:bindingStartColor="@{@color/surface_container}"
                 android:clipToOutline="true"
                 android:padding="8dp"
                 android:src="@drawable/ic_settings"
@@ -57,7 +59,8 @@
             android:id="@+id/hero_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_hero_card"
+            app:bindingRadius="24dp"
+            app:bindingStartColor="@{@color/primary}"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -103,7 +106,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_category_unselected"
+                app:bindingRadius="12dp"
+                app:bindingStartColor="@{@color/surface_container}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
@@ -117,6 +121,7 @@
                     android:textColor="@color/on_surface"
                     android:textSize="12sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
             <!-- Progress Bar -->
@@ -196,7 +201,8 @@
                 android:id="@+id/card_budget_warning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_insight_card"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:visibility="gone">
@@ -210,7 +216,8 @@
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:background="@color/error_container"
+                        app:bindingRadius="12dp"
+                        app:bindingStartColor="@{@color/error_container}"
                         android:padding="6dp"
                         android:src="@drawable/ic_notification"
                         app:tint="@color/error" />
@@ -256,7 +263,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_insight_card"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:visibility="gone">
@@ -270,7 +278,8 @@
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:background="@color/primary_container"
+                        app:bindingRadius="12dp"
+                        app:bindingStartColor="@{@color/primary_container}"
                         android:padding="6dp"
                         android:src="@drawable/ic_insights"
                         app:tint="@android:color/white" />
@@ -316,7 +325,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_insight_card"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:visibility="gone">
@@ -330,10 +340,11 @@
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:background="@color/secondary_container"
+                        app:bindingRadius="12dp"
+                        app:bindingStartColor="@{@color/secondary_container}"
                         android:padding="6dp"
                         android:src="@drawable/ic_home"
-                        android:tint="@color/on_secondary_container" />
+                        app:tint="@color/on_secondary_container" />
 
                     <View
                         android:layout_width="0dp"
@@ -376,7 +387,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_insight_card"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
                 android:gravity="center"
                 android:padding="24dp"
                 android:text="Add some expenses to see AI-generated insights here!"
@@ -400,7 +412,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_insight_card"
+            app:bindingRadius="16dp"
+            app:bindingStartColor="@{@android:color/white}"
             android:orientation="vertical"
             android:padding="4dp" />
 
@@ -410,7 +423,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_insight_card"
+            app:bindingRadius="16dp"
+            app:bindingStartColor="@{@android:color/white}"
             android:gravity="center"
             android:padding="32dp"
             android:text="@string/no_transactions"
@@ -422,7 +436,8 @@
             android:id="@+id/btn_view_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_insight_card"
+            app:bindingRadius="16dp"
+            app:bindingStartColor="@{@android:color/white}"
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/view_all_transactions"
@@ -433,3 +448,4 @@
 
     </LinearLayout>
 </ScrollView>
+</layout>

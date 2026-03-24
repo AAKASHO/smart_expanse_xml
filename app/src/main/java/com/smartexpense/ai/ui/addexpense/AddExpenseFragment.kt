@@ -14,12 +14,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.smartexpense.ai.R
 import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.databinding.FragmentAddExpenseBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddExpenseFragment : Fragment() {
 
     private lateinit var viewModel: AddExpenseViewModel
+    private var _binding: FragmentAddExpenseBinding? = null
+    private val binding get() = _binding!!
+
     private var selectedCategory = "Food"
     private var selectedPaymentMethod = "UPI"
     private var selectedDate = Calendar.getInstance()
@@ -29,24 +33,27 @@ class AddExpenseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_add_expense, container, false)
+    ): View {
+        _binding = FragmentAddExpenseBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[AddExpenseViewModel::class.java]
 
-        setupCategorySelection(view)
-        setupPaymentMethodSelection(view)
-        setupDatePicker(view)
-        setupDoneButton(view)
+        setupCategorySelection()
+        setupPaymentMethodSelection()
+        setupDatePicker()
+        setupDoneButton()
     }
 
-    private fun setupCategorySelection(view: View) {
-        categoryViews["Food"] = view.findViewById(R.id.cat_food)
-        categoryViews["Travel"] = view.findViewById(R.id.cat_travel)
-        categoryViews["Bills"] = view.findViewById(R.id.cat_bills)
-        categoryViews["Shopping"] = view.findViewById(R.id.cat_shopping)
-        categoryViews["Other"] = view.findViewById(R.id.cat_other)
+    private fun setupCategorySelection() {
+        categoryViews["Food"] = binding.catFood
+        categoryViews["Travel"] = binding.catTravel
+        categoryViews["Bills"] = binding.catBills
+        categoryViews["Shopping"] = binding.catShopping
+        categoryViews["Other"] = binding.catOther
 
         categoryViews.forEach { (name, layout) ->
             layout.setOnClickListener {
@@ -56,7 +63,6 @@ class AddExpenseFragment : Fragment() {
         }
 
         // Default selection
-        selectedCategory = "Food"
         updateCategorySelection()
     }
 
@@ -64,16 +70,21 @@ class AddExpenseFragment : Fragment() {
         categoryViews.forEach { (name, layout) ->
             if (name == selectedCategory) {
                 layout.setBackgroundResource(R.drawable.bg_category_selected)
+                // Need to update child views tint/color manually as before
+                (layout.getChildAt(0) as? android.widget.ImageView)?.setColorFilter(resources.getColor(android.R.color.white, null))
+                (layout.getChildAt(1) as? TextView)?.setTextColor(resources.getColor(android.R.color.white, null))
             } else {
                 layout.setBackgroundResource(R.drawable.bg_category_unselected)
+                (layout.getChildAt(0) as? android.widget.ImageView)?.setColorFilter(resources.getColor(R.color.primary, null))
+                (layout.getChildAt(1) as? TextView)?.setTextColor(resources.getColor(R.color.on_surface_variant, null))
             }
         }
     }
 
-    private fun setupPaymentMethodSelection(view: View) {
-        paymentViews["UPI"] = view.findViewById(R.id.chip_upi)
-        paymentViews["Cash"] = view.findViewById(R.id.chip_cash)
-        paymentViews["Card"] = view.findViewById(R.id.chip_card)
+    private fun setupPaymentMethodSelection() {
+        paymentViews["UPI"] = binding.chipUpi
+        paymentViews["Cash"] = binding.chipCash
+        paymentViews["Card"] = binding.chipCard
 
         paymentViews.forEach { (method, chip) ->
             chip.setOnClickListener {
@@ -88,24 +99,25 @@ class AddExpenseFragment : Fragment() {
         paymentViews.forEach { (method, chip) ->
             if (method == selectedPaymentMethod) {
                 chip.setBackgroundResource(R.drawable.bg_category_selected)
-                chip.setTextColor(resources.getColor(R.color.primary, null))
+                chip.setTextColor(resources.getColor(android.R.color.white, null))
+                chip.setTypeface(null, android.graphics.Typeface.BOLD)
             } else {
                 chip.setBackgroundResource(R.drawable.bg_category_unselected)
                 chip.setTextColor(resources.getColor(R.color.on_surface_variant, null))
+                chip.setTypeface(null, android.graphics.Typeface.NORMAL)
             }
         }
     }
 
-    private fun setupDatePicker(view: View) {
-        val tvDate = view.findViewById<TextView>(R.id.tv_selected_date)
-        updateDateDisplay(tvDate)
+    private fun setupDatePicker() {
+        updateDateDisplay()
 
-        view.findViewById<View>(R.id.date_picker_container).setOnClickListener {
+        binding.datePickerContainer.setOnClickListener {
             DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
                     selectedDate.set(year, month, day)
-                    updateDateDisplay(tvDate)
+                    updateDateDisplay()
                 },
                 selectedDate.get(Calendar.YEAR),
                 selectedDate.get(Calendar.MONTH),
@@ -114,15 +126,15 @@ class AddExpenseFragment : Fragment() {
         }
     }
 
-    private fun updateDateDisplay(tvDate: TextView) {
+    private fun updateDateDisplay() {
         val format = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        tvDate.text = format.format(selectedDate.time)
+        binding.tvSelectedDate.text = format.format(selectedDate.time)
     }
 
-    private fun setupDoneButton(view: View) {
-        view.findViewById<View>(R.id.btn_done).setOnClickListener {
-            val amountText = view.findViewById<EditText>(R.id.et_amount).text.toString()
-            val note = view.findViewById<EditText>(R.id.et_note).text.toString()
+    private fun setupDoneButton() {
+        binding.btnDone.setOnClickListener {
+            val amountText = binding.etAmount.text.toString()
+            val note = binding.etNote.text.toString()
 
             if (amountText.isBlank()) {
                 Toast.makeText(requireContext(), "Please enter an amount", Toast.LENGTH_SHORT).show()
@@ -151,5 +163,10 @@ class AddExpenseFragment : Fragment() {
             // Navigate back to dashboard
             findNavController().navigate(R.id.nav_dashboard)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

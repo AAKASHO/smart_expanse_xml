@@ -46,9 +46,19 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private var _binding: com.smartexpense.ai.databinding.FragmentSettingsBinding? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_settings, container, false)
+    ): View {
+        _binding = com.smartexpense.ai.databinding.FragmentSettingsBinding.inflate(inflater, container, false)
+        return _binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,6 +107,11 @@ class SettingsFragment : Fragment() {
         // Google Sign-In
         view.findViewById<View>(R.id.btn_google_signin).setOnClickListener {
             Toast.makeText(requireContext(), "Google Sign-In requires Firebase setup. Add google-services.json first.", Toast.LENGTH_LONG).show()
+        }
+
+        // Manage Budget Limit
+        view.findViewById<View>(R.id.btn_manage_budget).setOnClickListener {
+            androidx.navigation.fragment.findNavController(this).navigate(R.id.nav_budget_limits)
         }
 
         // Export CSV

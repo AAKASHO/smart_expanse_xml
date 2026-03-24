@@ -104,6 +104,48 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <!-- Manage Budget Limit -->
+        <LinearLayout
+            android:id="@+id/btn_manage_budget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_insight_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_insights"
+                android:tint="@color/primary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set Monthly Budget"
+                    android:textColor="@color/on_surface"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Adjust your global spending boundaries"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
         <!-- SMS Parsing Toggle -->
         <LinearLayout
             android:layout_width="match_parent"

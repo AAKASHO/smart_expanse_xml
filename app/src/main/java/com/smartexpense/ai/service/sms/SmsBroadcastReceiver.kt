@@ -71,9 +71,9 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
     private fun extractAmount(message: String): Double? {
         // Match patterns like "Rs.500", "Rs 500", "INR 500", "₹500", "Rs.1,200.50"
         val patterns = listOf(
-            Pattern.compile("(?:Rs\\.?|INR|₹)\\s*([\\d,]+\\.?\\d*)", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("(?:debited|spent|paid|amount)\\s*(?:of)?\\s*(?:Rs\\.?|INR|₹)?\\s*([\\d,]+\\.?\\d*)", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("([\\d,]+\\.?\\d*)\\s*(?:debited|credited)", Pattern.CASE_INSENSITIVE)
+            Pattern.compile("(?i)(?:rs\\.?|inr|₹)\\s*([\\d,]+\\.\\d{1,2}|[\\d,]+)"),
+            Pattern.compile("(?i)(?:debited|spent|paid|amount)\\s*(?:of)?\\s*(?:rs\\.?|inr|₹)?\\s*([\\d,]+\\.\\d{1,2}|[\\d,]+)"),
+            Pattern.compile("([\\d,]+\\.\\d{1,2}|[\\d,]+)\\s*(?:debited|credited)", Pattern.CASE_INSENSITIVE)
         )
 
         for (pattern in patterns) {

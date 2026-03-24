@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.smartexpense.ai.R
 import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.databinding.FragmentDashboardBinding
 import com.smartexpense.ai.service.insights.InsightType
 import com.smartexpense.ai.util.CurrencyFormatter
 import com.smartexpense.ai.util.DateFormatter
@@ -19,61 +20,50 @@ import com.smartexpense.ai.util.DateFormatter
 class DashboardFragment : Fragment() {
 
     private lateinit var viewModel: DashboardViewModel
+    private var _binding: FragmentDashboardBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_dashboard, container, false)
+    ): View {
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
 
-        setupObservers(view)
-        setupClickListeners(view)
+        setupObservers()
+        setupClickListeners()
     }
 
-    private fun setupClickListeners(view: View) {
-        view.findViewById<View>(R.id.btn_view_all)?.setOnClickListener {
-            findNavController().navigate(R.id.nav_transactions)
+    private fun setupClickListeners() {
+        binding.btnViewAll.setOnClickListener {
+            val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
+            bottomNav.selectedItemId = R.id.nav_transactions
         }
-        view.findViewById<View>(R.id.tv_view_all_insights)?.setOnClickListener {
-            findNavController().navigate(R.id.nav_analytics)
+        binding.tvViewAllInsights.setOnClickListener {
+            val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
+            bottomNav.selectedItemId = R.id.nav_analytics
         }
     }
 
-    private fun setupObservers(view: View) {
-        val tvSpending = view.findViewById<TextView>(R.id.tv_spending_amount)
-        val tvBudgetDivider = view.findViewById<TextView>(R.id.tv_budget_divider)
-        val tvPercentage = view.findViewById<TextView>(R.id.tv_budget_percentage)
-        val tvRemaining = view.findViewById<TextView>(R.id.tv_remaining)
-        val progressBar = view.findViewById<ProgressBar>(R.id.progress_budget)
-        val recentContainer = view.findViewById<LinearLayout>(R.id.recent_transactions_container)
-        val tvNoTransactions = view.findViewById<TextView>(R.id.tv_no_transactions)
-        val btnViewAll = view.findViewById<View>(R.id.btn_view_all)
-
-        // Insight cards
-        val cardBudgetWarning = view.findViewById<View>(R.id.card_budget_warning)
-        val cardTrend = view.findViewById<View>(R.id.card_trend)
-        val cardTopCategory = view.findViewById<View>(R.id.card_top_category)
-        val tvBudgetWarningDesc = view.findViewById<TextView>(R.id.tv_budget_warning_desc)
-        val tvTrendDesc = view.findViewById<TextView>(R.id.tv_trend_desc)
-        val tvTopCategoryDesc = view.findViewById<TextView>(R.id.tv_top_category_desc)
-        val tvNoInsights = view.findViewById<TextView>(R.id.tv_no_insights)
-
+    private fun setupObservers() {
         var currentSpending = 0.0
         var budgetLimit = 30000.0
         var prevSpending: Double? = null
 
         viewModel.currentBudget.observe(viewLifecycleOwner) { budget ->
             budgetLimit = budget?.monthlyLimit ?: 30000.0
-            tvBudgetDivider.text = " / ₹${CurrencyFormatter.format(budgetLimit)}"
-            updateBudgetUI(tvSpending, tvPercentage, tvRemaining, progressBar, currentSpending, budgetLimit)
+            binding.tvBudgetDivider.text = " / ₹${CurrencyFormatter.format(budgetLimit)}"
+            updateBudgetUI(currentSpending, budgetLimit)
         }
 
         viewModel.currentMonthSpending.observe(viewLifecycleOwner) { total ->
             currentSpending = total ?: 0.0
-            tvSpending.text = "₹${CurrencyFormatter.format(currentSpending)}"
-            updateBudgetUI(tvSpending, tvPercentage, tvRemaining, progressBar, currentSpending, budgetLimit)
+            binding.tvSpendingAmount.text = "₹${CurrencyFormatter.format(currentSpending)}"
+            updateBudgetUI(currentSpending, budgetLimit)
         }
 
         viewModel.previousMonthSpending.observe(viewLifecycleOwner) { total ->
@@ -81,17 +71,17 @@ class DashboardFragment : Fragment() {
         }
 
         viewModel.recentExpenses.observe(viewLifecycleOwner) { expenses ->
-            recentContainer.removeAllViews()
+            binding.recentTransactionsContainer.removeAllViews()
             if (expenses.isNullOrEmpty()) {
-                tvNoTransactions.visibility = View.VISIBLE
-                btnViewAll.visibility = View.GONE
-                recentContainer.visibility = View.GONE
+                binding.tvNoTransactions.visibility = View.VISIBLE
+                binding.btnViewAll.visibility = View.GONE
+                binding.recentTransactionsContainer.visibility = View.GONE
             } else {
-                tvNoTransactions.visibility = View.GONE
-                btnViewAll.visibility = View.VISIBLE
-                recentContainer.visibility = View.VISIBLE
+                binding.tvNoTransactions.visibility = View.GONE
+                binding.btnViewAll.visibility = View.VISIBLE
+                binding.recentTransactionsContainer.visibility = View.VISIBLE
                 expenses.take(3).forEach { expense ->
-                    recentContainer.addView(createTransactionRow(expense))
+                    binding.recentTransactionsContainer.addView(createTransactionRow(expense))
                 }
             }
         }
@@ -104,47 +94,44 @@ class DashboardFragment : Fragment() {
             )
 
             // Reset visibility
-            cardBudgetWarning.visibility = View.GONE
-            cardTrend.visibility = View.GONE
-            cardTopCategory.visibility = View.GONE
+            binding.cardBudgetWarning.visibility = View.GONE
+            binding.cardTrend.visibility = View.GONE
+            binding.cardTopCategory.visibility = View.GONE
 
             var hasInsights = false
             insights.forEach { insight ->
                 when (insight.type) {
                     InsightType.BUDGET_WARNING -> {
-                        cardBudgetWarning.visibility = View.VISIBLE
-                        tvBudgetWarningDesc.text = insight.description
+                        binding.cardBudgetWarning.visibility = View.VISIBLE
+                        binding.tvBudgetWarningDesc.text = insight.description
                         hasInsights = true
                     }
                     InsightType.TREND_DETECTION -> {
-                        cardTrend.visibility = View.VISIBLE
-                        tvTrendDesc.text = insight.description
+                        binding.cardTrend.visibility = View.VISIBLE
+                        binding.tvTrendDesc.text = insight.description
                         hasInsights = true
                     }
                     InsightType.TOP_CATEGORY -> {
-                        cardTopCategory.visibility = View.VISIBLE
-                        tvTopCategoryDesc.text = insight.description
+                        binding.cardTopCategory.visibility = View.VISIBLE
+                        binding.tvTopCategoryDesc.text = insight.description
                         hasInsights = true
                     }
                     else -> {}
                 }
             }
 
-            tvNoInsights.visibility = if (hasInsights) View.GONE else View.VISIBLE
+            binding.tvNoInsights.visibility = if (hasInsights) View.GONE else View.VISIBLE
         }
     }
 
-    private fun updateBudgetUI(
-        tvSpending: TextView, tvPercentage: TextView, tvRemaining: TextView,
-        progressBar: ProgressBar, spending: Double, budget: Double
-    ) {
+    private fun updateBudgetUI(spending: Double, budget: Double) {
         val percentage = if (budget > 0) ((spending / budget) * 100).toInt().coerceAtMost(100) else 0
         val remaining = (budget - spending).coerceAtLeast(0.0)
 
-        tvSpending.text = "₹${CurrencyFormatter.format(spending)}"
-        tvPercentage.text = "$percentage% of budget used"
-        tvRemaining.text = "₹${CurrencyFormatter.format(remaining)} Remaining"
-        progressBar.progress = percentage
+        binding.tvSpendingAmount.text = "₹${CurrencyFormatter.format(spending)}"
+        binding.tvBudgetPercentage.text = "$percentage% of budget used"
+        binding.tvRemaining.text = "₹${CurrencyFormatter.format(remaining)} Remaining"
+        binding.progressBudget.progress = percentage
     }
 
     private fun createTransactionRow(expense: Expense): View {
@@ -159,5 +146,10 @@ class DashboardFragment : Fragment() {
             "- ₹${CurrencyFormatter.format(expense.amount)}"
 
         return row
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

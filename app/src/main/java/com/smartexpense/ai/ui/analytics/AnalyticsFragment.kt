@@ -26,9 +26,19 @@ class AnalyticsFragment : Fragment() {
 
     private lateinit var viewModel: AnalyticsViewModel
 
+    private var _binding: com.smartexpense.ai.databinding.FragmentAnalyticsBinding? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_analytics, container, false)
+    ): View {
+        _binding = com.smartexpense.ai.databinding.FragmentAnalyticsBinding.inflate(inflater, container, false)
+        return _binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

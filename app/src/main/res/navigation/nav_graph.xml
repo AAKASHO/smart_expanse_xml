@@ -35,4 +35,10 @@
         android:label="@string/nav_settings"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/nav_budget_limits"
+        android:name="com.smartexpense.ai.ui.settings.BudgetLimitsFragment"
+        android:label="Budget Limits"
+        tools:layout="@layout/fragment_budget_limits" />
+
 </navigation>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface"
@@ -18,10 +19,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/enter_amount"
             android:textColor="@color/on_surface_variant"
-            android:textSize="14sp"
-            android:layout_gravity="center_horizontal" />
+            android:textSize="14sp" />
 
         <!-- Amount Input -->
         <LinearLayout
@@ -44,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:gravity="center"
                 android:hint="0.00"
                 android:inputType="numberDecimal"
                 android:maxLength="10"
@@ -51,8 +53,7 @@
                 android:textColor="@color/primary"
                 android:textColorHint="@color/outline_variant"
                 android:textSize="48sp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- AI Badge -->
@@ -104,17 +105,19 @@
                 android:id="@+id/cat_food"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_home"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -128,17 +131,19 @@
                 android:id="@+id/cat_travel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_selected"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_insights"
-                    android:tint="@android:color/white" />
+                    app:tint="@android:color/white" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -153,17 +158,19 @@
                 android:id="@+id/cat_bills"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_notification"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -177,17 +184,19 @@
                 android:id="@+id/cat_shopping"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_home"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -201,17 +210,19 @@
                 android:id="@+id/cat_other"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp">
+
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_settings"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -247,7 +258,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_history"
-                android:tint="@color/on_surface_variant" />
+                app:tint="@color/on_surface_variant" />
 
             <TextView
                 android:id="@+id/tv_selected_date"
@@ -281,8 +292,8 @@
                 android:id="@+id/chip_upi"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_weight="1"
                 android:layout_marginEnd="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_selected"
                 android:gravity="center"
                 android:text="@string/upi"
@@ -294,8 +305,8 @@
                 android:id="@+id/chip_cash"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:text="@string/cash"
@@ -306,8 +317,8 @@
                 android:id="@+id/chip_card"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_weight="1"
                 android:layout_marginStart="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:text="@string/card"
@@ -356,8 +367,7 @@
             app:cornerRadius="16dp"
             app:icon="@drawable/ic_add_circle"
             app:iconGravity="textStart"
-            app:iconTint="@android:color/white"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            app:iconTint="@android:color/white" />
 
     </LinearLayout>
 </ScrollView>

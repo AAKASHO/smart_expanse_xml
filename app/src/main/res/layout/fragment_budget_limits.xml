@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/surface"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="100dp">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Budget Limits"
+                android:textColor="@color/primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- Current Limit Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:bindingRadius="20dp"
+                app:bindingStartColor="@{@color/primary_container}"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monthly ceiling"
+                    android:textAllCaps="true"
+                    android:textColor="@color/on_primary_container"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_current_budget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="₹30,000.00"
+                    android:textColor="@color/on_primary_container"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Categories Overview -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Categories"
+                android:textColor="@color/on_surface"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Food -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+                
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:bindingRadius="12dp"
+                    app:bindingStartColor="@{@color/surface_container}"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_home"
+                    app:tint="@color/primary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Food"
+                        android:textColor="@color/on_surface"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                        
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Daily focus"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Travel -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+                
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:bindingRadius="12dp"
+                    app:bindingStartColor="@{@color/surface_container}"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_insights"
+                    app:tint="@color/primary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Travel"
+                        android:textColor="@color/on_surface"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                        
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Lifestyle"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Bills -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+                
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:bindingRadius="12dp"
+                    app:bindingStartColor="@{@color/surface_container}"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_notification"
+                    app:tint="@color/primary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bills"
+                        android:textColor="@color/on_surface"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                        
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Fixed"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Shopping -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:bindingRadius="16dp"
+                app:bindingStartColor="@{@android:color/white}"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+                
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:bindingRadius="12dp"
+                    app:bindingStartColor="@{@color/surface_container}"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/primary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shopping"
+                        android:textColor="@color/on_surface"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                        
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Discretionary"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!-- Set Limit Form -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Set Monthly Budget"
+                android:textColor="@color/on_surface"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Define your global spending boundaries"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_budget_amount"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                app:bindingRadius="12dp"
+                app:bindingStartColor="@{@color/surface_container}"
+                android:background="@null"
+                android:hint="New Budget Amount (₹)"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/on_surface"
+                android:textColorHint="@color/outline"
+                android:textSize="16sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_budget"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/primary"
+                android:text="Save Budget"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:cornerRadius="12dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

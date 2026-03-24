@@ -1,16 +1,24 @@
 package com.smartexpense.ai.util
 
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.smartexpense.ai.R
 
 class BindingAdapterUtils {
     companion object {
+        @JvmStatic
+        @BindingAdapter("app:tint")
+        fun setImageTint(view: ImageView, color: Int) {
+            ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
+        }
 
         /**
          *

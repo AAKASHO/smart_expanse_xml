@@ -22,9 +22,19 @@ class TransactionsFragment : Fragment() {
     private var selectedFilter: String? = null
     private val chipViews = mutableMapOf<String?, TextView>()
 
+    private var _binding: com.smartexpense.ai.databinding.FragmentTransactionsBinding? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_transactions, container, false)
+    ): View {
+        _binding = com.smartexpense.ai.databinding.FragmentTransactionsBinding.inflate(inflater, container, false)
+        return _binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,7 +83,7 @@ class TransactionsFragment : Fragment() {
         chipViews.forEach { (category, chip) ->
             if (category == selectedFilter) {
                 chip.setBackgroundResource(R.drawable.bg_category_selected)
-                chip.setTextColor(resources.getColor(R.color.primary, null))
+                chip.setTextColor(resources.getColor(android.R.color.white, null))
             } else {
                 chip.setBackgroundResource(R.drawable.bg_category_unselected)
                 chip.setTextColor(resources.getColor(R.color.on_surface_variant, null))
