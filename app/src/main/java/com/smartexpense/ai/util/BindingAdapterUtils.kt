@@ -13,7 +13,6 @@ class BindingAdapterUtils {
     companion object {
 
         /**
-         * Common Adapter for setting image into [MKImageView]
          *
          * @param view [MKImageView]
          * @param url [String] image URL to load
