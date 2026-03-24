@@ -1,0 +1,39 @@
+# Build and IDE files
+build/
+**/build/
+.gradle/
+/local.properties
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Android Studio / IntelliJ
+/.idea/caches/
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/deploymentTargetSelector.xml
+
+# Captures and logs
+/captures/
+*.log
+
+# External Native Build
+.externalNativeBuild/
+.cxx/
+
+# Google Services
+google-services.json
+
+# Signing files
+*.jks
+*.keystore
+/release/
+
+# Testing
+/screenshots/
