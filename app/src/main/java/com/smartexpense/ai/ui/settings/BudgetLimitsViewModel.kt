@@ -32,7 +32,7 @@ class BudgetLimitsViewModel(application: Application) : AndroidViewModel(applica
                     year = cal.get(Calendar.YEAR)
                 )
             }
-            if (existing != null && existing.id != 0 && newBudget.id != 0) {
+            if (existing != null && existing.id.toInt() != 0 && newBudget.id.toInt() != 0) {
                  repository.updateBudget(newBudget)
             } else {
                  repository.setBudget(newBudget)

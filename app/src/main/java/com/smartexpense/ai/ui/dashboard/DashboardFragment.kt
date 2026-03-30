@@ -43,6 +43,9 @@ class DashboardFragment : Fragment() {
             val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
             bottomNav.selectedItemId = R.id.nav_transactions
         }
+        binding.heroCard.setOnClickListener {
+            findNavController().navigate(R.id.nav_budget_limits)
+        }
         binding.tvViewAllInsights.setOnClickListener {
             val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
             bottomNav.selectedItemId = R.id.nav_analytics
@@ -132,6 +135,36 @@ class DashboardFragment : Fragment() {
         binding.tvBudgetPercentage.text = "$percentage% of budget used"
         binding.tvRemaining.text = "₹${CurrencyFormatter.format(remaining)} Remaining"
         binding.progressBudget.progress = percentage
+
+        // Update Bento Grid Category Budgets
+        updateCategoryBentoGrid()
+    }
+
+    private fun updateCategoryBentoGrid() {
+        val categories = viewModel.categoryTotals.value ?: emptyList()
+        
+        // Define limits (these could be fetched from DB later, but for now we follow the design)
+        val limits = mapOf(
+            "Food" to 5000.0,
+            "Travel" to 3000.0,
+            "Bills" to 10000.0,
+            "Shopping" to 7000.0
+        )
+
+        val foodSpent = categories.find { it.category == "Food" }?.total ?: 0.0
+        val travelSpent = categories.find { it.category == "Travel" }?.total ?: 0.0
+        val billsSpent = categories.find { it.category == "Bills" }?.total ?: 0.0
+        val shoppingSpent = categories.find { it.category == "Shopping" }?.total ?: 0.0
+
+        updateCategoryCard(binding.tvFoodBudgetStatus, binding.progressFoodBudget, foodSpent, limits["Food"]!!)
+        updateCategoryCard(binding.tvTravelBudgetStatus, binding.progressTravelBudget, travelSpent, limits["Travel"]!!)
+        updateCategoryCard(binding.tvBillsBudgetStatus, binding.progressBillsBudget, billsSpent, limits["Bills"]!!)
+        updateCategoryCard(binding.tvShoppingBudgetStatus, binding.progressShoppingBudget, shoppingSpent, limits["Shopping"]!!)
+    }
+
+    private fun updateCategoryCard(tvStatus: TextView, progressBar: ProgressBar, spent: Double, limit: Double) {
+        tvStatus.text = "₹${CurrencyFormatter.format(spent)} / ₹${CurrencyFormatter.format(limit)}"
+        progressBar.progress = if (limit > 0) ((spent / limit) * 100).toInt().coerceAtMost(100) else 0
     }
 
     private fun createTransactionRow(expense: Expense): View {

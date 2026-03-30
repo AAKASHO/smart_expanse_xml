@@ -2,15 +2,15 @@
 build/
 **/build/
 .gradle/
-!gradle/wrapper/gradle-wrapper.jar
-/local.properties
+**/local.properties
 .idea/
+**/idea/
 *.iml
 *.ipr
 *.iws
 .DS_Store
 
-# Android Studio / IntelliJ (fine-grained ignores)
+# Android Studio / IntelliJ
 .idea/caches/
 .idea/libraries/
 .idea/modules.xml
@@ -24,7 +24,7 @@ build/
 /captures/
 *.log
 
-# External Native Build (NDK / C++)
+# External Native Build
 .externalNativeBuild/
 .cxx/
 
@@ -36,8 +36,8 @@ out/
 # Kotlin / Java
 *.class
 *.dex
-kapt/
-kaptGeneratedStubs/
+**/kapt/
+**/kaptGeneratedStubs/
 
 # Android packaging
 *.apk
@@ -45,37 +45,41 @@ kaptGeneratedStubs/
 *.ap_
 *.aar
 
-# Google Services (optional: keep if shared across team)
+# Google Services
 google-services.json
 
-# Firebase / Crashlytics
-firebase-crashlytics-build.properties
-
-# Signing files (NEVER commit)
+# Signing files
 *.jks
 *.keystore
 /release/
 
-# Testing / UI screenshots
+# Testing
 /screenshots/
 
-# VS Code (if occasionally used)
-/.vscode/
+# VS Code
+.vscode/
 
-# OS-specific files
+# OS-specific
 Thumbs.db
-
-# Navigation component temp files
-.navigation/
-
-# Gradle cache (rare but safe)
-.gradle/caches/
-.gradle/native/
-.gradle/daemon/
-.gradle/buildOutputCleanup/
-
-# Local history (Android Studio)
-.localhistory/
-
-# Mac hidden files
 ._*
+
+# Build
+build/
+**/build/
+
+# Gradle
+.gradle/
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Captures
+captures/

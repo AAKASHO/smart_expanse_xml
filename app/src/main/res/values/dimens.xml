@@ -86,6 +86,7 @@
     <dimen name="size27">27dp</dimen>
     <dimen name="size30">30dp</dimen>
     <dimen name="size31">31dp</dimen>
+    <dimen name="size32">32dp</dimen>
     <dimen name="size34">34dp</dimen>
     <dimen name="size35">35dp</dimen>
     <dimen name="size36">36dp</dimen>

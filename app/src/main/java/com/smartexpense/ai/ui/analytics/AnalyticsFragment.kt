@@ -25,14 +25,14 @@ import java.util.*
 class AnalyticsFragment : Fragment() {
 
     private lateinit var viewModel: AnalyticsViewModel
-
     private var _binding: com.smartexpense.ai.databinding.FragmentAnalyticsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = com.smartexpense.ai.databinding.FragmentAnalyticsBinding.inflate(inflater, container, false)
-        return _binding!!.root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -43,15 +43,26 @@ class AnalyticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[AnalyticsViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        setupCharts(view)
-        observeData(view)
+        setupCharts()
+        setupClickListeners()
+        observeData()
     }
 
-    private fun setupCharts(view: View) {
+    private fun setupClickListeners() {
+        binding.toggleMonthly.setOnClickListener {
+            viewModel.setDateFilter(DateFilter.MONTHLY)
+        }
+        binding.toggleWeekly.setOnClickListener {
+            viewModel.setDateFilter(DateFilter.WEEKLY)
+        }
+    }
+
+    private fun setupCharts() {
         // Bar Chart Setup
-        val barChart = view.findViewById<BarChart>(R.id.bar_chart)
-        barChart.apply {
+        binding.barChart.apply {
             description.isEnabled = false
             legend.isEnabled = false
             setFitBars(true)
@@ -74,81 +85,75 @@ class AnalyticsFragment : Fragment() {
             setNoDataTextColor(Color.parseColor("#767683"))
         }
 
-        // Pie Chart Setup
-        val pieChart = view.findViewById<PieChart>(R.id.pie_chart)
-        pieChart.apply {
+        // Pie Chart Setup (Donut style)
+        binding.pieChart.apply {
             description.isEnabled = false
             isDrawHoleEnabled = true
-            holeRadius = 55f
-            transparentCircleRadius = 60f
+            holeRadius = 75f
+            transparentCircleRadius = 0f
             setHoleColor(Color.TRANSPARENT)
-            setDrawEntryLabels(true)
-            setEntryLabelColor(Color.parseColor("#1B1B21"))
-            setEntryLabelTextSize(11f)
+            setDrawEntryLabels(false)
             setTouchEnabled(true)
-            legend.isEnabled = false
+            legend.apply {
+                isEnabled = true
+                textColor = Color.WHITE
+                verticalAlignment = com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.BOTTOM
+                horizontalAlignment = com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
+                orientation = com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL
+                setDrawInside(false)
+                yOffset = 5f
+            }
             setNoDataText("No category data yet")
-            setNoDataTextColor(Color.parseColor("#767683"))
+            setNoDataTextColor(Color.WHITE)
         }
     }
 
-    private fun observeData(view: View) {
-        val tvTotal = view.findViewById<TextView>(R.id.tv_total_spending)
-
-        var totalSpending = 0.0
-        var budgetLimit = 30000.0
-        var prevSpending: Double? = null
-
-        viewModel.currentMonthSpending.observe(viewLifecycleOwner) { total ->
-            totalSpending = total ?: 0.0
-            tvTotal.text = "₹${CurrencyFormatter.format(totalSpending)}"
+    private fun observeData() {
+        viewModel.spendingTotal.observe(viewLifecycleOwner) { total ->
+            binding.tvTotalSpending.text = "₹${CurrencyFormatter.format(total ?: 0.0)}"
         }
 
         viewModel.currentBudget.observe(viewLifecycleOwner) { budget ->
-            budgetLimit = budget?.monthlyLimit ?: 30000.0
-        }
-
-        viewModel.previousMonthSpending.observe(viewLifecycleOwner) { total ->
-            prevSpending = total
+            // Budget can be used for insights or comparison if needed
         }
 
         // Bar Chart Data
         viewModel.dailyTotals.observe(viewLifecycleOwner) { dailyTotals ->
-            updateBarChart(view, dailyTotals ?: emptyList())
+            updateBarChart(dailyTotals ?: emptyList())
         }
 
         // Pie Chart + Insights
         viewModel.categoryTotals.observe(viewLifecycleOwner) { categories ->
-            updatePieChart(view, categories ?: emptyList())
+            updatePieChart(categories ?: emptyList())
         }
 
-        viewModel.currentMonthExpenses.observe(viewLifecycleOwner) { expenses ->
+        viewModel.expenses.observe(viewLifecycleOwner) { expenses ->
             val categories = viewModel.categoryTotals.value ?: emptyList()
+            val totalSpending = viewModel.spendingTotal.value ?: 0.0
+            val budgetLimit = viewModel.currentBudget.value?.monthlyLimit ?: 30000.0
+            val prevSpending = viewModel.previousMonthSpending.value
+
             val insights = viewModel.insightsEngine.generateInsights(
                 totalSpending, budgetLimit, categories, prevSpending, expenses ?: emptyList()
             )
 
-            val cardDailyHigh = view.findViewById<View>(R.id.card_daily_high)
-            val cardMostExpensive = view.findViewById<View>(R.id.card_most_expensive)
-            val cardSaving = view.findViewById<View>(R.id.card_saving)
-
-            cardDailyHigh.visibility = View.GONE
-            cardMostExpensive.visibility = View.GONE
-            cardSaving.visibility = View.GONE
+            binding.cardDailyHigh.visibility = View.GONE
+            binding.cardMostExpensive.visibility = View.GONE
+            binding.cardSaving.visibility = View.GONE
 
             insights.forEach { insight ->
                 when (insight.type) {
                     InsightType.DAILY_HIGH -> {
-                        cardDailyHigh.visibility = View.VISIBLE
-                        view.findViewById<TextView>(R.id.tv_daily_high_desc).text = insight.description
+                        binding.cardDailyHigh.visibility = View.VISIBLE
+                        binding.tvDailyHighDesc.text = insight.description
                     }
                     InsightType.TOP_CATEGORY -> {
-                        cardMostExpensive.visibility = View.VISIBLE
-                        view.findViewById<TextView>(R.id.tv_most_expensive_desc).text = insight.description
+                        binding.cardMostExpensive.visibility = View.VISIBLE
+                        binding.tvMostExpensiveDesc.text = insight.description
                     }
                     InsightType.SAVING_OPPORTUNITY -> {
-                        cardSaving.visibility = View.VISIBLE
-                        view.findViewById<TextView>(R.id.tv_saving_desc).text = insight.description
+                        binding.cardSaving.visibility = View.VISIBLE
+                        binding.tvSavingDesc.text = insight.description
                     }
                     else -> {}
                 }
@@ -156,10 +161,9 @@ class AnalyticsFragment : Fragment() {
         }
     }
 
-    private fun updateBarChart(view: View, dailyTotals: List<DailyTotal>) {
-        val barChart = view.findViewById<BarChart>(R.id.bar_chart)
+    private fun updateBarChart(dailyTotals: List<DailyTotal>) {
         if (dailyTotals.isEmpty()) {
-            barChart.clear()
+            binding.barChart.clear()
             return
         }
 
@@ -171,23 +175,20 @@ class AnalyticsFragment : Fragment() {
             SimpleDateFormat("dd", Locale.getDefault()).format(Date(daily.date))
         }
 
-        val dataSet = BarDataSet(entries, "Daily Spending").apply {
+        val dataSet = BarDataSet(entries, "Spending").apply {
             color = Color.parseColor("#000666")
-            valueTextColor = Color.parseColor("#767683")
-            valueTextSize = 9f
             setDrawValues(false)
         }
 
-        barChart.data = BarData(dataSet).apply { barWidth = 0.6f }
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-        barChart.animateY(800)
-        barChart.invalidate()
+        binding.barChart.data = BarData(dataSet).apply { barWidth = 0.6f }
+        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        binding.barChart.animateY(800)
+        binding.barChart.invalidate()
     }
 
-    private fun updatePieChart(view: View, categories: List<CategoryTotal>) {
-        val pieChart = view.findViewById<PieChart>(R.id.pie_chart)
+    private fun updatePieChart(categories: List<CategoryTotal>) {
         if (categories.isEmpty()) {
-            pieChart.clear()
+            binding.pieChart.clear()
             return
         }
 
@@ -196,22 +197,27 @@ class AnalyticsFragment : Fragment() {
         }
 
         val colors = listOf(
-            Color.parseColor("#000666"),
-            Color.parseColor("#006A6A"),
-            Color.parseColor("#38DEBB"),
-            Color.parseColor("#4C56AF"),
-            Color.parseColor("#BDC2FF")
+            ContextCompat.getColor(requireContext(), R.color.category_food),
+            ContextCompat.getColor(requireContext(), R.color.category_travel),
+            ContextCompat.getColor(requireContext(), R.color.category_bills),
+            ContextCompat.getColor(requireContext(), R.color.category_shopping),
+            ContextCompat.getColor(requireContext(), R.color.category_other)
         )
 
         val dataSet = PieDataSet(entries, "").apply {
             setColors(colors)
-            valueTextSize = 12f
-            valueTextColor = Color.WHITE
-            sliceSpace = 3f
+            setDrawValues(false)
+            sliceSpace = 4f
         }
 
-        pieChart.data = PieData(dataSet)
-        pieChart.animateXY(800, 800)
-        pieChart.invalidate()
+        binding.pieChart.data = PieData(dataSet)
+        binding.pieChart.animateXY(800, 800)
+        binding.pieChart.invalidate()
+        
+        // Add total in center
+        val total = categories.sumOf { it.total }
+        binding.pieChart.centerText = "₹${CurrencyFormatter.format(total)}"
+        binding.pieChart.setCenterTextColor(Color.WHITE)
+        binding.pieChart.setCenterTextSize(18f)
     }
 }

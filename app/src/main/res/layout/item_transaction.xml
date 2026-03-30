@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    bindingRadius="@{@dimen/size24}"
+    bindingStartColor="@{@color/surface_container_lowest}"
+    android:layout_marginBottom="1dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingHorizontal="4dp"
-    android:paddingVertical="12dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp">
 
     <!-- Category Icon Circle -->
     <FrameLayout
@@ -15,7 +19,8 @@
         <View
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/bg_category_unselected" />
+            bindingRadius="@{@dimen/size24}"
+            bindingStartColor="@{@color/surface_container_highest}" />
 
         <ImageView
             android:id="@+id/iv_icon"
@@ -23,14 +28,14 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_home"
-            android:tint="@color/primary" />
+            app:tint="@color/primary" />
     </FrameLayout>
 
     <!-- Transaction Details -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -47,16 +52,16 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Merchant"
                 android:textColor="@color/on_surface"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_auto_sync_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="✨"
-                android:textSize="12sp"
+            <ImageView
+                android:id="@+id/iv_auto_sync_badge"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_insights"
+                app:tint="@color/on_tertiary_container"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -67,7 +72,8 @@
             android:layout_marginTop="2dp"
             android:text="UPI • Food"
             android:textColor="@color/outline"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 
     <!-- Amount + Auto Sync -->
@@ -83,19 +89,19 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="₹0.00"
-            android:textColor="@color/on_surface"
-            android:textSize="15sp"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_auto_synced"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@color/ai_badge_bg"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="1dp"
-            android:text="@string/auto_synced"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_auto_sync_badge"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="AUTO-SYNCED"
             android:textColor="@color/on_tertiary_container"
             android:textSize="9sp"
             android:textStyle="bold"

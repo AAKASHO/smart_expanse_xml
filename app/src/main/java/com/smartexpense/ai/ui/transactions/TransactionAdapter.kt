@@ -3,6 +3,7 @@ package com.smartexpense.ai.ui.transactions
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -60,7 +61,7 @@ class TransactionAdapter : ListAdapter<TransactionListItem, RecyclerView.ViewHol
         private val tvDetails: TextView = view.findViewById(R.id.tv_details)
         private val tvAmount: TextView = view.findViewById(R.id.tv_amount)
         private val tvAutoSynced: TextView = view.findViewById(R.id.tv_auto_synced)
-        private val tvAutoSyncBadge: TextView = view.findViewById(R.id.tv_auto_sync_badge)
+        private val ivAutoSyncBadge: ImageView = view.findViewById(R.id.iv_auto_sync_badge)
 
         fun bind(item: TransactionListItem.Transaction) {
             val expense = item.expense
@@ -70,10 +71,10 @@ class TransactionAdapter : ListAdapter<TransactionListItem, RecyclerView.ViewHol
 
             if (expense.isAutoSynced) {
                 tvAutoSynced.visibility = View.VISIBLE
-                tvAutoSyncBadge.visibility = View.VISIBLE
+                ivAutoSyncBadge.visibility = View.VISIBLE
             } else {
                 tvAutoSynced.visibility = View.GONE
-                tvAutoSyncBadge.visibility = View.GONE
+                ivAutoSyncBadge.visibility = View.GONE
             }
         }
     }

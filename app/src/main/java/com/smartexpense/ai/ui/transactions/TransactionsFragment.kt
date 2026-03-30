@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import android.view.HapticFeedbackConstants
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.smartexpense.ai.R
+import com.smartexpense.ai.databinding.FragmentTransactionsBinding
 
 class TransactionsFragment : Fragment() {
 
@@ -22,18 +25,13 @@ class TransactionsFragment : Fragment() {
     private var selectedFilter: String? = null
     private val chipViews = mutableMapOf<String?, TextView>()
 
-    private var _binding: com.smartexpense.ai.databinding.FragmentTransactionsBinding? = null
+    private lateinit var binding: FragmentTransactionsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = com.smartexpense.ai.databinding.FragmentTransactionsBinding.inflate(inflater, container, false)
-        return _binding!!.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        binding = FragmentTransactionsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +42,9 @@ class TransactionsFragment : Fragment() {
         setupSearch(view)
         setupFilters(view)
         observeData(view)
+        
+        // Ensure initial filter UI state is correct (e.g. "All" selected)
+        updateFilterUI()
     }
 
     private fun setupRecyclerView(view: View) {
@@ -72,6 +73,7 @@ class TransactionsFragment : Fragment() {
 
         chipViews.forEach { (category, chip) ->
             chip.setOnClickListener {
+                it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                 selectedFilter = category
                 viewModel.setCategoryFilter(category)
                 updateFilterUI()
@@ -80,13 +82,19 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun updateFilterUI() {
+        val selectedColor = ContextCompat.getColor(requireContext(), R.color.primary)
+        val unselectedColor = ContextCompat.getColor(requireContext(), R.color.surface_variant)
+        val white = ContextCompat.getColor(requireContext(), android.R.color.white)
+        val grey = ContextCompat.getColor(requireContext(), R.color.on_surface_variant)
+        val radius = resources.getDimension(R.dimen.size12)
+
         chipViews.forEach { (category, chip) ->
             if (category == selectedFilter) {
-                chip.setBackgroundResource(R.drawable.bg_category_selected)
-                chip.setTextColor(resources.getColor(android.R.color.white, null))
+                com.smartexpense.ai.util.BindingAdapterUtils.setBackground(chip, radius, selectedColor)
+                chip.setTextColor(white)
             } else {
-                chip.setBackgroundResource(R.drawable.bg_category_unselected)
-                chip.setTextColor(resources.getColor(R.color.on_surface_variant, null))
+                com.smartexpense.ai.util.BindingAdapterUtils.setBackground(chip, radius, unselectedColor)
+                chip.setTextColor(grey)
             }
         }
     }

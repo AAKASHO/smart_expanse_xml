@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface"
@@ -37,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -110,7 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -151,7 +155,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -197,7 +202,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -243,7 +249,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -301,7 +308,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -334,7 +342,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -361,7 +370,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -379,7 +389,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/bg_insight_card"
+            bindingRadius="@{@dimen/size16}"
+            bindingStartColor="@{@android:color/white}"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -411,3 +422,4 @@
             android:textSize="12sp" />
     </LinearLayout>
 </ScrollView>
+</layout>

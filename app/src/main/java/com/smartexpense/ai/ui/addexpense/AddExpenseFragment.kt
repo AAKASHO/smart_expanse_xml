@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -67,16 +68,22 @@ class AddExpenseFragment : Fragment() {
     }
 
     private fun updateCategorySelection() {
+        val selectedColor = ContextCompat.getColor(requireContext(), R.color.primary)
+        val unselectedColor = ContextCompat.getColor(requireContext(), R.color.surface_variant)
+        val white = ContextCompat.getColor(requireContext(), android.R.color.white)
+        val primary = ContextCompat.getColor(requireContext(), R.color.primary)
+        val grey = ContextCompat.getColor(requireContext(), R.color.on_surface_variant)
+        val radius = resources.getDimension(R.dimen.size12)
+
         categoryViews.forEach { (name, layout) ->
             if (name == selectedCategory) {
-                layout.setBackgroundResource(R.drawable.bg_category_selected)
-                // Need to update child views tint/color manually as before
-                (layout.getChildAt(0) as? android.widget.ImageView)?.setColorFilter(resources.getColor(android.R.color.white, null))
-                (layout.getChildAt(1) as? TextView)?.setTextColor(resources.getColor(android.R.color.white, null))
+                com.smartexpense.ai.util.BindingAdapterUtils.setBackground(layout, radius, selectedColor)
+                (layout.getChildAt(0) as? android.widget.ImageView)?.setColorFilter(white)
+                (layout.getChildAt(1) as? TextView)?.setTextColor(white)
             } else {
-                layout.setBackgroundResource(R.drawable.bg_category_unselected)
-                (layout.getChildAt(0) as? android.widget.ImageView)?.setColorFilter(resources.getColor(R.color.primary, null))
-                (layout.getChildAt(1) as? TextView)?.setTextColor(resources.getColor(R.color.on_surface_variant, null))
+                com.smartexpense.ai.util.BindingAdapterUtils.setBackground(layout, radius, unselectedColor)
+                (layout.getChildAt(0) as? android.widget.ImageView)?.setColorFilter(primary)
+                (layout.getChildAt(1) as? TextView)?.setTextColor(grey)
             }
         }
     }
@@ -96,14 +103,20 @@ class AddExpenseFragment : Fragment() {
     }
 
     private fun updatePaymentSelection() {
+        val selectedColor = ContextCompat.getColor(requireContext(), R.color.primary)
+        val unselectedColor = ContextCompat.getColor(requireContext(), R.color.surface_variant)
+        val white = ContextCompat.getColor(requireContext(), android.R.color.white)
+        val grey = ContextCompat.getColor(requireContext(), R.color.on_surface_variant)
+        val radius = resources.getDimension(R.dimen.size12)
+
         paymentViews.forEach { (method, chip) ->
             if (method == selectedPaymentMethod) {
-                chip.setBackgroundResource(R.drawable.bg_category_selected)
-                chip.setTextColor(resources.getColor(android.R.color.white, null))
+                com.smartexpense.ai.util.BindingAdapterUtils.setBackground(chip, radius, selectedColor)
+                chip.setTextColor(white)
                 chip.setTypeface(null, android.graphics.Typeface.BOLD)
             } else {
-                chip.setBackgroundResource(R.drawable.bg_category_unselected)
-                chip.setTextColor(resources.getColor(R.color.on_surface_variant, null))
+                com.smartexpense.ai.util.BindingAdapterUtils.setBackground(chip, radius, unselectedColor)
+                chip.setTextColor(grey)
                 chip.setTypeface(null, android.graphics.Typeface.NORMAL)
             }
         }

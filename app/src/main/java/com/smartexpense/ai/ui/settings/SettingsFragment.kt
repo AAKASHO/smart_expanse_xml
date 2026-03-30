@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.smartexpense.ai.R
@@ -111,7 +112,7 @@ class SettingsFragment : Fragment() {
 
         // Manage Budget Limit
         view.findViewById<View>(R.id.btn_manage_budget).setOnClickListener {
-            androidx.navigation.fragment.findNavController(this).navigate(R.id.nav_budget_limits)
+            findNavController().navigate(R.id.nav_budget_limits)
         }
 
         // Export CSV

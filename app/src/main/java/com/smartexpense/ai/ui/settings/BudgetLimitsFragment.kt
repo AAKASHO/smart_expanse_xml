@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.smartexpense.ai.databinding.FragmentBudgetLimitsBinding
 import com.smartexpense.ai.util.CurrencyFormatter
 import kotlinx.coroutines.launch
 
-class BudgetLimitsFragment : Fragment() {
+class BudgetLimitsFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBudgetLimitsBinding? = null
     private val binding get() = _binding!!
@@ -38,12 +39,20 @@ class BudgetLimitsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.currentBudget.collect { budget ->
                 val limit = budget?.monthlyLimit ?: 30000.0
-                binding.tvCurrentBudget.text = "₹${CurrencyFormatter.format(limit)}"
+                binding.etBudgetAmount.setText(limit.toInt().toString())
+                // Initialize slider based on budget (default 1/30th if not specified)
+                val dailyLimit = (limit / 30).toInt().coerceIn(100, 5000)
+                binding.sliderDailyLimit.value = dailyLimit.toFloat()
+                binding.tvDailyLimitValue.text = "₹${CurrencyFormatter.format(dailyLimit.toDouble())}"
             }
         }
     }
 
     private fun setupClickListeners() {
+        binding.sliderDailyLimit.addOnChangeListener { _, value, _ ->
+            binding.tvDailyLimitValue.text = "₹${CurrencyFormatter.format(value.toDouble())}"
+        }
+
         binding.btnSaveBudget.setOnClickListener {
             val newAmountStr = binding.etBudgetAmount.text.toString()
             if (newAmountStr.isBlank()) {
@@ -54,11 +63,15 @@ class BudgetLimitsFragment : Fragment() {
             val amount = newAmountStr.toDoubleOrNull()
             if (amount != null && amount > 0) {
                 viewModel.updateBudget(amount)
-                Toast.makeText(requireContext(), "Budget Limits Updated!", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
+                Toast.makeText(requireContext(), "Budget Updated!", Toast.LENGTH_SHORT).show()
+                dismiss()
             } else {
                 Toast.makeText(requireContext(), "Invalid amount", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.btnCancel.setOnClickListener {
+            dismiss()
         }
     }
 

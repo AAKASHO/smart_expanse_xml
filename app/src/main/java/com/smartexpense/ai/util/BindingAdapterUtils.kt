@@ -1,6 +1,7 @@
 package com.smartexpense.ai.util
 
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -18,6 +19,12 @@ class BindingAdapterUtils {
         @BindingAdapter("app:tint")
         fun setImageTint(view: ImageView, color: Int) {
             ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
+        }
+
+        @JvmStatic
+        @BindingAdapter("android:textStyle")
+        fun setTextStyle(view: TextView, style: Int) {
+            view.setTypeface(null, style)
         }
 
         /**
@@ -79,12 +86,12 @@ class BindingAdapterUtils {
          * @param radius
          */
         @JvmStatic
-        @BindingAdapter(value = ["bindingStartColor", "bindingEndColor", "bindingRadius",
+        @BindingAdapter(value = ["bindingRadius", "bindingStartColor", "bindingEndColor",
             "bindingTopLeftRadius", "bindingTopRightRadius", "bindingBottomLeftRadius",
             "bindingBottomRightRadius", "bindingStrokeColor", "bindingStrokeWidth", "bindingShape",
             "bindingOrientation", "bindingCenterColor", "bindingStrokeColors", "bindingGradientColors"], requireAll = false)
-        fun setBackground(view: View, startColor: Int? = null, endColor: Int? = null,
-                          radius: Float = 0f, topLeftRadius : Float = 0f, topRightRadius : Float = 0f,
+        fun setBackground(view: View, radius: Float = 0f, startColor: Int? = null, endColor: Int? = null,
+                          topLeftRadius : Float = 0f, topRightRadius : Float = 0f,
                           bottomLeftRadius : Float = 0f, bottomRightRadius : Float = 0f,
                           strokeColor: Int? = null, strokeWidth: Float? = null,
                           shape: Int? = null, orientation: GradientDrawable.Orientation? = null, centerColor: Int? = null, strokeColors: List<Int>? = null, gradientColors: List<Int>? = null) {

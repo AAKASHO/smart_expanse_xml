@@ -74,6 +74,28 @@ class ExpenseRepository(
         return getMonthlySpending(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
     }
 
+    // --- Weekly totals ---
+
+    fun getWeeklySpending(): Flow<Double?> {
+        val (start, end) = getWeekRange()
+        return expenseDao.getTotalSpending(start, end)
+    }
+
+    fun getWeeklyCategoryTotals(): Flow<List<CategoryTotal>> {
+        val (start, end) = getWeekRange()
+        return expenseDao.getCategoryTotals(start, end)
+    }
+
+    fun getWeeklyDailyTotals(): Flow<List<DailyTotal>> {
+        val (start, end) = getWeekRange()
+        return expenseDao.getDailyTotals(start, end)
+    }
+
+    fun getWeeklyExpenses(): Flow<List<Expense>> {
+        val (start, end) = getWeekRange()
+        return expenseDao.getByDateRange(start, end)
+    }
+
     // --- Budget operations ---
 
     suspend fun setBudget(budget: Budget): Long = budgetDao.insert(budget)
@@ -105,6 +127,25 @@ class ExpenseRepository(
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month - 1)
             set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }
+        return Pair(startCal.timeInMillis, endCal.timeInMillis)
+    }
+
+    private fun getWeekRange(): Pair<Long, Long> {
+        val startCal = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val endCal = Calendar.getInstance().apply {
+            timeInMillis = startCal.timeInMillis
+            add(Calendar.DAY_OF_YEAR, 6)
             set(Calendar.HOUR_OF_DAY, 23)
             set(Calendar.MINUTE, 59)
             set(Calendar.SECOND, 59)

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.smartexpense.ai.ui.analytics.AnalyticsViewModel" />
+        <import type="com.smartexpense.ai.ui.analytics.DateFilter" />
+        <import type="android.graphics.Color" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,14 +24,24 @@
             android:paddingTop="24dp"
             android:paddingBottom="100dp">
 
-            <!-- Title -->
+            <!-- Header -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:letterSpacing="0.1"
+                android:text="FINANCIAL INTELLIGENCE"
+                android:textColor="#767683"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/analytics_insights"
                 android:textColor="#000666"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <!-- Monthly / Weekly Toggle -->
@@ -31,8 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:bindingRadius="18dp"
-                app:bindingStartColor="@{@color/surface_variant}"
+                bindingRadius="@{@dimen/size18}"
+                bindingStartColor="@{@color/surface_variant}"
                 android:orientation="horizontal"
                 android:padding="4dp">
 
@@ -40,32 +58,38 @@
                     android:id="@+id/toggle_monthly"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    app:bindingRadius="14dp"
-                    app:bindingStartColor="@{@color/primary}"
+                    bindingRadius="@{@dimen/size14}"
+                    bindingStartColor="@{viewModel.dateFilter == DateFilter.MONTHLY ? @color/primary : @color/surface_variant}"
                     android:gravity="center"
                     android:paddingHorizontal="24dp"
                     android:text="@string/monthly"
-                    android:textColor="@android:color/white"
+                    android:textColor="@{viewModel.dateFilter == DateFilter.MONTHLY ? @android:color/white : @color/on_surface_variant}"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="@{viewModel.dateFilter == DateFilter.MONTHLY ? 1 : 0}" />
 
                 <TextView
                     android:id="@+id/toggle_weekly"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
+                    bindingRadius="@{@dimen/size14}"
+                    bindingStartColor="@{viewModel.dateFilter == DateFilter.WEEKLY ? @color/primary : @color/surface_variant}"
                     android:gravity="center"
                     android:paddingHorizontal="24dp"
                     android:text="@string/weekly"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="14sp" />
+                    android:textColor="@{viewModel.dateFilter == DateFilter.WEEKLY ? @android:color/white : @color/on_surface_variant}"
+                    android:textSize="14sp"
+                    android:textStyle="@{viewModel.dateFilter == DateFilter.WEEKLY ? 1 : 0}" />
             </LinearLayout>
 
-            <!-- Monthly Total -->
+            <!-- Spending Trend Card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="vertical">
+                android:layout_marginTop="24dp"
+                bindingRadius="@{@dimen/size24}"
+                bindingStartColor="@{@android:color/white}"
+                android:orientation="vertical"
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,40 +101,56 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Overview of your expenses across the selected period."
+                    android:textColor="#767683"
+                    android:textSize="13sp" />
+
+                <TextView
                     android:id="@+id/tv_total_spending"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="₹0"
                     android:textColor="#000666"
-                    android:textSize="40sp"
+                    android:textSize="36sp"
                     android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="16dp" />
             </LinearLayout>
 
-            <!-- Bar Chart -->
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/bar_chart"
+            <!-- Distribution Card -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginTop="20dp" />
-
-            <!-- Pie Chart Section -->
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/distribution"
-                android:textColor="#1A237E"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="16dp"
+                bindingRadius="@{@dimen/size24}"
+                bindingStartColor="@{@color/primary}"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie_chart"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginTop="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/distribution"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
 
             <!-- Insight Cards -->
             <LinearLayout
@@ -125,8 +165,8 @@
                     android:id="@+id/card_daily_high"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:bindingRadius="20dp"
-                    app:bindingStartColor="@{@color/surface_container}"
+                    bindingRadius="@{@dimen/size20}"
+                    bindingStartColor="@{@color/surface_container}"
                     android:orientation="vertical"
                     android:padding="24dp"
                     android:visibility="gone">
@@ -156,8 +196,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:bindingRadius="20dp"
-                    app:bindingStartColor="@{@color/surface_container}"
+                    bindingRadius="@{@dimen/size20}"
+                    bindingStartColor="@{@color/surface_container}"
                     android:orientation="vertical"
                     android:padding="24dp"
                     android:visibility="gone">
@@ -187,8 +227,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    app:bindingRadius="20dp"
-                    app:bindingStartColor="@{@color/primary}"
+                    bindingRadius="@{@dimen/size20}"
+                    bindingStartColor="@{@color/primary}"
                     android:orientation="vertical"
                     android:padding="28dp"
                     android:visibility="gone">

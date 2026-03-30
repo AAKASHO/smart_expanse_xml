@@ -10,289 +10,206 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="32dp"
-            android:paddingBottom="100dp">
+            android:paddingBottom="32dp">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Budget Limits"
-                android:textColor="@color/primary"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <!-- Current Limit Card -->
+            <!-- Bottom Sheet Content -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:bindingRadius="20dp"
-                app:bindingStartColor="@{@color/primary_container}"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="24dp"
+                app:bindingRadius="@{@dimen/size32}"
+                app:bindingStartColor="@{@color/surface_container_lowest}">
 
+                <!-- Handle -->
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="24dp"
+                    app:bindingRadius="@{@dimen/size2}"
+                    app:bindingStartColor="@{@color/outline_variant}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Set Monthly Budget"
+                        android:textColor="@color/primary"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Define your global spending boundaries"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Total Amount Input -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Monthly ceiling"
-                    android:textAllCaps="true"
-                    android:textColor="@color/on_primary_container"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_current_budget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="4dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="₹30,000.00"
-                    android:textColor="@color/on_primary_container"
-                    android:textSize="32sp"
+                    android:letterSpacing="0.1"
+                    android:text="Total Monthly Budget"
+                    android:textAllCaps="true"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
-            </LinearLayout>
 
-            <!-- Categories Overview -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Categories"
-                android:textColor="@color/on_surface"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginBottom="24dp">
 
-            <!-- Food -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:bindingRadius="16dp"
-                app:bindingStartColor="@{@android:color/white}"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-                
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:bindingRadius="12dp"
-                    app:bindingStartColor="@{@color/surface_container}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_home"
-                    app:tint="@color/primary" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        app:bindingRadius="@{@dimen/size16}"
+                        app:bindingStartColor="@{@color/surface_container_low}" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Food"
-                        android:textColor="@color/on_surface"
-                        android:textSize="16sp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="₹"
+                        android:textColor="@color/primary"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
-                        
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                    <EditText
+                        android:id="@+id/et_budget_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="48dp"
+                        android:background="@null"
+                        android:fontFamily="sans-serif-medium"
+                        android:inputType="numberDecimal"
+                        android:paddingEnd="20dp"
+                        android:text="30000"
+                        android:textColor="@color/primary"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <!-- Slider Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.1"
+                            android:text="Daily Spending Limit"
+                            android:textAllCaps="true"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_daily_limit_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="₹1,000"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_daily_limit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:value="1000.0"
+                        android:valueFrom="100.0"
+                        android:valueTo="5000.0"
+                        app:haloColor="@android:color/transparent"
+                        app:thumbColor="@color/primary"
+                        app:thumbStrokeColor="@android:color/white"
+                        app:thumbStrokeWidth="4dp"
+                        app:trackColorActive="@color/secondary"
+                        app:trackColorInactive="@color/surface_container_highest" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Daily focus"
-                        android:textColor="@color/on_surface_variant"
-                        android:textSize="13sp" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="₹100"
+                            android:textColor="@color/outline"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="₹5,000"
+                            android:textColor="@color/outline"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <!-- Actions -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save_budget"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:backgroundTint="@color/primary"
+                    android:elevation="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Save Changes"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Cancel"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
-
-            <!-- Travel -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:bindingRadius="16dp"
-                app:bindingStartColor="@{@android:color/white}"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-                
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:bindingRadius="12dp"
-                    app:bindingStartColor="@{@color/surface_container}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_insights"
-                    app:tint="@color/primary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Travel"
-                        android:textColor="@color/on_surface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                        
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Lifestyle"
-                        android:textColor="@color/on_surface_variant"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Bills -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:bindingRadius="16dp"
-                app:bindingStartColor="@{@android:color/white}"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-                
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:bindingRadius="12dp"
-                    app:bindingStartColor="@{@color/surface_container}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_notification"
-                    app:tint="@color/primary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bills"
-                        android:textColor="@color/on_surface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                        
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Fixed"
-                        android:textColor="@color/on_surface_variant"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Shopping -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:bindingRadius="16dp"
-                app:bindingStartColor="@{@android:color/white}"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-                
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:bindingRadius="12dp"
-                    app:bindingStartColor="@{@color/surface_container}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_settings"
-                    app:tint="@color/primary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Shopping"
-                        android:textColor="@color/on_surface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                        
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Discretionary"
-                        android:textColor="@color/on_surface_variant"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <!-- Set Limit Form -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Set Monthly Budget"
-                android:textColor="@color/on_surface"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Define your global spending boundaries"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/et_budget_amount"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="16dp"
-                app:bindingRadius="12dp"
-                app:bindingStartColor="@{@color/surface_container}"
-                android:background="@null"
-                android:hint="New Budget Amount (₹)"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/on_surface"
-                android:textColorHint="@color/outline"
-                android:textSize="16sp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_save_budget"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/primary"
-                android:text="Save Budget"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                app:cornerRadius="12dp" />
-
         </LinearLayout>
     </ScrollView>
 </layout>

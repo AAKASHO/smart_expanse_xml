@@ -1,134 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/surface"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingTop="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true">
 
-    <!-- Search Bar -->
+    <data>
+
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@drawable/bg_search_bar"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+        android:layout_height="match_parent"
+        android:background="@color/surface"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_insights"
-            android:tint="@color/outline" />
-
-        <EditText
-            android:id="@+id/et_search"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="12dp"
-            android:background="@android:color/transparent"
-            android:hint="@string/search_hint"
-            android:inputType="text"
-            android:textColor="@color/on_surface"
-            android:textColorHint="@color/outline_variant"
-            android:textSize="14sp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Search Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:bindingRadius="@{@dimen/size16}"
+                    app:bindingStartColor="@{@color/surface_container_low}"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_insights"
+                        app:tint="@color/outline" />
+
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="12dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Search transactions, merchants, or notes..."
+                        android:inputType="text"
+                        android:textColor="@color/on_surface"
+                        android:textColorHint="@color/outline_variant"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+
+                <!-- Filter Chips -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/filter_chips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp">
+
+                        <TextView
+                            android:id="@+id/chip_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:paddingHorizontal="20dp"
+                            android:text="All"
+                            android:textSize="13sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/chip_food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:paddingHorizontal="20dp"
+                            android:text="@string/cat_food"
+                            android:textSize="13sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/chip_travel_filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:paddingHorizontal="20dp"
+                            android:text="@string/cat_travel"
+                            android:textSize="13sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/chip_bills_filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:paddingHorizontal="20dp"
+                            android:text="@string/cat_bills"
+                            android:textSize="13sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/chip_shopping_filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:gravity="center"
+                            android:paddingHorizontal="20dp"
+                            android:text="@string/cat_shopping"
+                            android:textSize="13sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!-- Loading / Empty states encapsulated here if nested -->
+                <TextView
+                    android:id="@+id/tv_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center"
+                    android:text="@string/no_transactions"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <!-- Transactions RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_transactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never" />
+
+                <!-- AI Intelligence Card -->
+                <LinearLayout
+                    android:id="@+id/card_ai_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    app:bindingRadius="@{@dimen/size32}"
+                    app:bindingStartColor="@{@color/primary}"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:bindingRadius="@{@dimen/size12}"
+                            app:bindingStartColor="@{@color/white}" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="AI Intelligence"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_ai_summary_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:lineSpacingExtra="4dp"
+                                android:text="Your spending on Food has increased by 12% compared to last week. Most transactions were auto-parsed from your SMS receipts."
+                                android:textColor="#CCFFFFFF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-
-    <!-- Filter Chips -->
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/filter_chips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/chip_all"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_category_selected"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:text="All"
-                android:textColor="@color/primary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/chip_food"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:text="@string/cat_food"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/chip_travel_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:text="@string/cat_travel"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/chip_bills_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:text="@string/cat_bills"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/chip_shopping_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:text="@string/cat_shopping"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <!-- Transactions RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_transactions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="20dp" />
-
-    <!-- Empty state -->
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/no_transactions"
-        android:textColor="@color/on_surface_variant"
-        android:textSize="15sp"
-        android:visibility="gone" />
-</LinearLayout>
+</layout>
