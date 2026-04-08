@@ -23,6 +23,8 @@ class ExpenseRepository(
 
     fun getByCategory(category: String): Flow<List<Expense>> = expenseDao.getByCategory(category)
 
+    fun getById(id: Long): Flow<Expense?> = expenseDao.getById(id)
+
     fun getByDateRange(startDate: Long, endDate: Long): Flow<List<Expense>> =
         expenseDao.getByDateRange(startDate, endDate)
 

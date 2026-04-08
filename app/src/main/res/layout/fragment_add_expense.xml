@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +7,7 @@
     android:clipToPadding="false"
     android:fillViewport="true">
 
+    <!-- Single vertical container for the whole form — no nesting inside -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,74 +16,83 @@
         android:paddingTop="16dp"
         android:paddingBottom="100dp">
 
-        <!-- Header -->
+        <!-- ── Screen Title (dynamically set: "Add Expense" / "Edit Transaction") ── -->
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_screen_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/enter_amount"
-            android:textColor="@color/on_surface_variant"
-            android:textSize="14sp" />
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Add Expense"
+            android:textColor="@color/on_surface"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <!-- Amount Input -->
-        <LinearLayout
+        <!-- ── Amount ──────────────────────────────────────────────── -->
+        <!-- amount_card: flat ConstraintLayout, removes the inner horizontal wrapper -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/amount_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="4dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp">
 
+            <!-- "Enter Amount" label — centred horizontally -->
             <TextView
+                android:id="@+id/tv_enter_amount_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="₹"
-                android:textColor="@color/primary"
-                android:textSize="40sp"
-                android:textStyle="bold" />
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.05"
+                android:text="@string/enter_amount"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Amount EditText — no wrapping LinearLayout needed -->
             <EditText
                 android:id="@+id/et_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/transparent"
-                android:gravity="center"
-                android:hint="0.00"
+                android:cursorVisible="true"
+                android:fontFamily="sans-serif-black"
+                android:gravity="start|center_vertical"
+                android:includeFontPadding="false"
                 android:inputType="numberDecimal"
-                android:maxLength="10"
-                android:minWidth="120dp"
-                android:textColor="@color/primary"
-                android:textColorHint="@color/outline_variant"
-                android:textSize="48sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:minWidth="100dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:textColor="@color/outline_variant"
+                android:textSize="52sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_enter_amount_label" />
 
-        <!-- AI Badge -->
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── AI Badge ────────────────────────────────────────────── -->
+        <!-- Single TextView instead of a LinearLayout wrapping two TextViews -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_category_unselected"
-            android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="6dp">
+            android:paddingVertical="6dp"
+            android:text="✨  AI categorizing enabled"
+            android:textColor="@color/secondary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="✨ "
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ai_categorizing"
-                android:textColor="@color/secondary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Category Section -->
+        <!-- ── Category Section ────────────────────────────────────── -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,147 +103,15 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Category Grid -->
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
 
-            <LinearLayout
-                android:id="@+id/cat_food"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_home"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/cat_food"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cat_travel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_category_selected"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_insights"
-                    app:tint="@android:color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/cat_travel"
-                    android:textColor="@android:color/white"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cat_bills"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_notification"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/cat_bills"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cat_shopping"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_home"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/cat_shopping"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cat_other"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_category_unselected"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_settings"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/cat_other"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Transaction Date -->
+        <!-- ── Transaction Date ────────────────────────────────────── -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -244,33 +122,42 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <!-- Flat ConstraintLayout replaces the horizontal LinearLayout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/date_picker_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_category_unselected"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/iv_date_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/ic_history"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/on_surface_variant" />
 
             <TextView
                 android:id="@+id/tv_selected_date"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Select date"
                 android:textColor="@color/on_surface"
-                android:textSize="15sp" />
-        </LinearLayout>
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_date_icon"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Payment Method -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Payment Method ──────────────────────────────────────── -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -281,52 +168,62 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <!-- Flat ConstraintLayout with horizontal chain replaces weight-based LinearLayout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:id="@+id/chip_upi"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="4dp"
-                android:layout_weight="1"
                 android:background="@drawable/bg_category_selected"
                 android:gravity="center"
                 android:text="@string/upi"
                 android:textColor="@color/primary"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/chip_cash"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/chip_cash"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_marginHorizontal="4dp"
-                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:text="@string/cash"
                 android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/chip_card"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/chip_upi"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/chip_card"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="4dp"
-                android:layout_weight="1"
                 android:background="@drawable/bg_category_unselected"
                 android:gravity="center"
                 android:text="@string/card"
                 android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
-        </LinearLayout>
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/chip_cash"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Note -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Note ────────────────────────────────────────────────── -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -352,7 +249,7 @@
             android:textColorHint="@color/outline"
             android:textSize="14sp" />
 
-        <!-- Done Button -->
+        <!-- ── Done Button ─────────────────────────────────────────── -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_done"
             android:layout_width="match_parent"
@@ -370,4 +267,4 @@
             app:iconTint="@android:color/white" />
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

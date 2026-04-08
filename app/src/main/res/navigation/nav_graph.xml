@@ -15,13 +15,23 @@
         android:id="@+id/nav_transactions"
         android:name="com.smartexpense.ai.ui.transactions.TransactionsFragment"
         android:label="@string/nav_history"
-        tools:layout="@layout/fragment_transactions" />
+        tools:layout="@layout/fragment_transactions">
+        <action
+            android:id="@+id/action_transactions_to_add_expense"
+            app:destination="@id/nav_add_expense" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_add_expense"
         android:name="com.smartexpense.ai.ui.addexpense.AddExpenseFragment"
         android:label="@string/nav_add"
-        tools:layout="@layout/fragment_add_expense" />
+        tools:layout="@layout/fragment_add_expense">
+        <!-- -1L = add mode; any other value = edit mode -->
+        <argument
+            android:name="expenseId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_analytics"

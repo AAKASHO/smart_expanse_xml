@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Same soft lavender background -->
+    <solid android:color="#F0EEFF" />
+
+    <!-- Subtle primary border to indicate active/editing state -->
+    <stroke
+        android:width="2dp"
+        android:color="#FF000666" />
+
+    <!-- Fully rounded corners -->
+    <corners android:radius="24dp" />
+</shape>

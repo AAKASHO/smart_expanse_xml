@@ -41,6 +41,9 @@ interface ExpenseDao {
 
     @Query("SELECT COUNT(*) FROM expenses")
     fun getExpenseCount(): Flow<Int>
+
+    @Query("SELECT * FROM expenses WHERE id = :id")
+    fun getById(id: Long): Flow<Expense?>
 }
 
 data class CategoryTotal(

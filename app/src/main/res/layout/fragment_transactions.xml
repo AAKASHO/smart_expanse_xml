@@ -1,205 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:viewBindingIgnore="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
+    <data />
 
-    </data>
-
-    <LinearLayout
+    <!--
+        Root ConstraintLayout: no ScrollView.
+        Header (search + chips) is pinned to top.
+        RecyclerView fills the remaining height (0dp between constraints).
+        The AI summary card lives inside the adapter as a footer item,
+        so it scrolls naturally with the transaction list.
+    -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/surface"
-        android:orientation="vertical">
+        android:background="@color/surface">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="16dp">
+        <!-- ── Search Bar ──────────────────────────────────────────── -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:paddingHorizontal="16dp"
+            app:bindingRadius="@{@dimen/size16}"
+            app:bindingStartColor="@{@color/surface_container_low}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_search_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/outline" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="sans-serif-medium"
+                android:hint="Search transactions, merchants, or notes..."
+                android:inputType="text"
+                android:textColor="@color/on_surface"
+                android:textColorHint="@color/outline_variant"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_search_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Filter Chips (horizontal scroll) ───────────────────── -->
+        <HorizontalScrollView
+            android:id="@+id/filter_scroll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_bar">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/filter_chips"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="4dp">
 
-                <!-- Search Bar -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:bindingRadius="@{@dimen/size16}"
-                    app:bindingStartColor="@{@color/surface_container_low}"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp">
+                <!-- "Filters" icon chip -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/chip_filters_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:paddingHorizontal="16dp"
+                    app:bindingRadius="@{@dimen/size24}"
+                    app:bindingStartColor="@{@color/surface_container_highest}">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/iv_filter_icon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:importantForAccessibility="no"
                         android:src="@drawable/ic_insights"
-                        app:tint="@color/outline" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/on_surface_variant" />
 
-                    <EditText
-                        android:id="@+id/et_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="12dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Search transactions, merchants, or notes..."
-                        android:inputType="text"
-                        android:textColor="@color/on_surface"
-                        android:textColorHint="@color/outline_variant"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-medium" />
-                </LinearLayout>
-
-                <!-- Filter Chips -->
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:id="@+id/filter_chips"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="4dp">
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Filters"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_filter_icon"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/chip_all"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="10dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:text="All"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:textStyle="bold" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                            android:id="@+id/chip_food"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="10dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:text="@string/cat_food"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif-medium" />
+                <!-- Dynamic chips generated programmatically in TransactionsFragment.kt -->
 
-                        <TextView
-                            android:id="@+id/chip_travel_filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="10dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:text="@string/cat_travel"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif-medium" />
-
-                        <TextView
-                            android:id="@+id/chip_bills_filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="10dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:text="@string/cat_bills"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif-medium" />
-
-                        <TextView
-                            android:id="@+id/chip_shopping_filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:text="@string/cat_shopping"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif-medium" />
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <!-- Loading / Empty states encapsulated here if nested -->
-                <TextView
-                    android:id="@+id/tv_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:gravity="center"
-                    android:text="@string/no_transactions"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
-
-                <!-- Transactions RecyclerView -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_transactions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
-
-                <!-- AI Intelligence Card -->
-                <LinearLayout
-                    android:id="@+id/card_ai_summary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="32dp"
-                    app:bindingRadius="@{@dimen/size32}"
-                    app:bindingStartColor="@{@color/primary}"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:bindingRadius="@{@dimen/size12}"
-                            app:bindingStartColor="@{@color/white}" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="AI Intelligence"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_ai_summary_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:lineSpacingExtra="4dp"
-                                android:text="Your spending on Food has increased by 12% compared to last week. Most transactions were auto-parsed from your SMS receipts."
-                                android:textColor="#CCFFFFFF"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- ── Empty state ────────────────────────────────────────── -->
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/no_transactions"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_scroll" />
+
+        <!-- ── Transactions RecyclerView ──────────────────────────── -->
+        <!--
+            height = 0dp (fills all space between filter row and bottom).
+            No ScrollView wrapper — the RecyclerView IS the scroll.
+            AI summary card is rendered as a footer view type inside the adapter.
+        -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transactions"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:overScrollMode="never"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="100dp"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_scroll" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
