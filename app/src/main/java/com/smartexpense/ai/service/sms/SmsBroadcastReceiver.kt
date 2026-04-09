@@ -31,6 +31,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
         val app = context.applicationContext as SmartExpenseApp
         CoroutineScope(Dispatchers.IO).launch {
             app.repository.addExpense(parsedExpense)
+            com.smartexpense.ai.service.notification.NotificationHelper(context).checkBudgetAndNotify(app.repository)
         }
     }
 

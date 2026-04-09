@@ -1,5 +1,6 @@
 package com.smartexpense.ai.ui.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +41,11 @@ class BudgetLimitsFragment : BottomSheetDialogFragment() {
             viewModel.currentBudget.collect { budget ->
                 val limit = budget?.monthlyLimit ?: 30000.0
                 binding.etBudgetAmount.setText(limit.toInt().toString())
-                // Initialize slider based on budget (default 1/30th if not specified)
-                val dailyLimit = (limit / 30).toInt().coerceIn(100, 5000)
+                
+                val prefs = requireContext().getSharedPreferences("smart_expense_prefs", Context.MODE_PRIVATE)
+                val savedDailyLimit = prefs.getFloat("daily_budget_limit", -1f)
+                val dailyLimit = if (savedDailyLimit > 0) savedDailyLimit.toInt() else (limit / 30).toInt().coerceIn(100, 5000)
+                
                 binding.sliderDailyLimit.value = dailyLimit.toFloat()
                 binding.tvDailyLimitValue.text = "₹${CurrencyFormatter.format(dailyLimit.toDouble())}"
             }
@@ -63,6 +67,11 @@ class BudgetLimitsFragment : BottomSheetDialogFragment() {
             val amount = newAmountStr.toDoubleOrNull()
             if (amount != null && amount > 0) {
                 viewModel.updateBudget(amount)
+                
+                // Save the daily limit choice
+                val prefs = requireContext().getSharedPreferences("smart_expense_prefs", Context.MODE_PRIVATE)
+                prefs.edit().putFloat("daily_budget_limit", binding.sliderDailyLimit.value).apply()
+                
                 Toast.makeText(requireContext(), "Budget Updated!", Toast.LENGTH_SHORT).show()
                 dismiss()
             } else {

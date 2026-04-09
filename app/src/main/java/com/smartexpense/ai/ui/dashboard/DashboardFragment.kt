@@ -171,6 +171,9 @@ class DashboardFragment : Fragment() {
         val row = LayoutInflater.from(requireContext())
             .inflate(R.layout.item_transaction_simple, null)
 
+        val iconRes = com.smartexpense.ai.data.ExpenseCategories.ALL.find { it.label == expense.category }?.iconRes ?: com.smartexpense.ai.R.drawable.ic_other
+        row.findViewById<android.widget.ImageView>(R.id.iv_category_icon).setImageResource(iconRes)
+
         row.findViewById<TextView>(R.id.tv_merchant).text =
             expense.merchant.ifEmpty { expense.category }
         row.findViewById<TextView>(R.id.tv_details).text =

@@ -1,5 +1,6 @@
 package com.smartexpense.ai.ui.transactions
 
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.smartexpense.ai.R
+import com.smartexpense.ai.data.ExpenseCategories
 import com.smartexpense.ai.data.db.Expense
 import com.smartexpense.ai.util.CurrencyFormatter
 import com.smartexpense.ai.util.DateFormatter
@@ -81,6 +83,9 @@ class TransactionAdapter(
             val radius = context.resources.getDimension(com.smartexpense.ai.R.dimen.size16)
 
             // ── Basic info ──────────────────────────────────────────
+            val iconRes = ExpenseCategories.ALL.find { it.label == expense.category }?.iconRes ?: R.drawable.ic_other
+            binding.ivIcon.setImageResource(iconRes)
+
             binding.tvMerchant.text = expense.merchant.ifEmpty { expense.category }
             binding.tvDetails.text = "${expense.paymentMethod} • ${expense.category}"
             binding.tvAmount.text = "₹${CurrencyFormatter.format(expense.amount)}"
@@ -123,7 +128,7 @@ class TransactionAdapter(
 
             // ── Card background ─────────────────────────────────────
             val bgColor = if (isExpanded) {
-                ContextCompat.getColor(context, R.color.surface_container_low)
+                ContextCompat.getColor(context, R.color.surface_container_high)
             } else {
                 ContextCompat.getColor(context, R.color.surface_container_lowest)
             }
@@ -145,7 +150,7 @@ class TransactionAdapter(
 
                 val parent = binding.root.parent as? ViewGroup
                 if (parent != null) {
-                    android.transition.TransitionManager.beginDelayedTransition(
+                    TransitionManager.beginDelayedTransition(
                         parent,
                         android.transition.AutoTransition().apply { duration = 220 }
                     )

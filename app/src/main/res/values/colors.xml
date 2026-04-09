@@ -76,4 +76,5 @@
     <color name="chart_color_3">#FF38DEBB</color>
     <color name="chart_color_4">#FF4C56AF</color>
     <color name="chart_color_5">#FFBDC2FF</color>
+    <color name="white_10">#1AFFFFFF</color>
 </resources>

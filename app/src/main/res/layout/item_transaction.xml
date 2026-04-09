@@ -14,8 +14,6 @@
         android:id="@+id/layout_item_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:bindingRadius="@{@dimen/size16}"
-        app:bindingStartColor="@{@color/surface_container_lowest}"
         android:layout_marginBottom="@dimen/size3"
         android:orientation="vertical"
         android:padding="16dp">

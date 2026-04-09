@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,14 @@ class SettingsFragment : Fragment() {
         } else {
             view?.findViewById<SwitchMaterial>(R.id.switch_sms)?.isChecked = false
             Toast.makeText(requireContext(), "SMS permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (!isGranted) {
+            Toast.makeText(requireContext(), "Notification permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -88,6 +97,9 @@ class SettingsFragment : Fragment() {
         switchBudget.isChecked = prefs.getBoolean("budget_alerts_enabled", true)
         switchBudget.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("budget_alerts_enabled", isChecked).apply()
+            if (isChecked) {
+                requestNotificationPermission()
+            }
         }
 
         // Daily Reminders toggle
@@ -96,6 +108,7 @@ class SettingsFragment : Fragment() {
         switchReminders.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("daily_reminders_enabled", isChecked).apply()
             if (isChecked) {
+                requestNotificationPermission()
                 notificationHelper.scheduleDailyReminder()
                 Toast.makeText(requireContext(), "Daily reminders enabled at 8 PM", Toast.LENGTH_SHORT).show()
             } else {
@@ -143,6 +156,14 @@ class SettingsFragment : Fragment() {
             smsPermissionLauncher.launch(
                 arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS)
             )
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 

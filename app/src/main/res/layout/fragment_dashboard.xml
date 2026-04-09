@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 bindingRadius="@{@dimen/size24}"
-                bindingStartColor="@{@color/surface_container}"
+                bindingStartColor="@{@color/white_10}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"

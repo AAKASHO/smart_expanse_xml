@@ -90,6 +90,8 @@
     <string name="reminder_text">Keep your financial records up to date!</string>
     <string name="budget_alert_title">Budget Alert ⚠️</string>
     <string name="budget_alert_text">You\'ve used %1$d%% of your monthly budget.</string>
+    <string name="daily_budget_alert_title">Daily Budget Exceeded ⚠️</string>
+    <string name="daily_budget_alert_text">You\'ve crossed your daily spending limit of ₹%1$d!</string>
 
     <!-- Currency -->
     <string name="rupee_symbol">₹</string>
