@@ -15,8 +15,8 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.smartexpense.ai.R
-import com.smartexpense.ai.data.db.CategoryTotal
-import com.smartexpense.ai.data.db.DailyTotal
+import com.smartexpense.ai.domain.model.CategoryTotal
+import com.smartexpense.ai.domain.model.DailyTotal
 import com.smartexpense.ai.service.insights.InsightType
 import com.smartexpense.ai.util.CurrencyFormatter
 import java.text.SimpleDateFormat

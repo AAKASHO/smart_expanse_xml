@@ -302,39 +302,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Privacy -->
-        <LinearLayout
-            android:id="@+id/btn_privacy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            bindingRadius="@{@dimen/size16}"
-            bindingStartColor="@{@android:color/white}"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="20dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_settings"
-                android:tint="@color/on_surface_variant" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:text="@string/privacy_security"
-                android:textColor="@color/on_surface"
-                android:textSize="15sp" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_insights"
-                android:tint="@color/on_surface_variant" />
-        </LinearLayout>
 
         <!-- Export CSV -->
         <LinearLayout

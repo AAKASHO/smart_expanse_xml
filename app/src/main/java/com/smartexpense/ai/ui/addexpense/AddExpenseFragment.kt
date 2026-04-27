@@ -17,8 +17,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.smartexpense.ai.R
 import com.smartexpense.ai.data.ExpenseCategories
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.Expense
 import com.smartexpense.ai.databinding.FragmentAddExpenseBinding
+import com.smartexpense.ai.util.CurrencyFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,7 +32,7 @@ class AddExpenseFragment : Fragment() {
     // Edit mode — set if an expenseId was passed via arguments
     private var editingExpenseId: Long = -1L
     private var isEditMode = false
-    private var editingExpense: com.smartexpense.ai.data.db.Expense? = null
+    private var editingExpense: Expense? = null
 
     private var selectedCategory = ExpenseCategories.DEFAULT
     private var selectedPaymentMethod = "UPI"
@@ -63,8 +64,8 @@ class AddExpenseFragment : Fragment() {
 
         if (isEditMode) {
             // Pre-fill all fields once the expense loads
-            binding.tvScreenTitle.text = "Edit Transaction"
-            binding.btnDone.text = "Save Changes"
+            binding.tvScreenTitle.text = getString(R.string.edit_transaction)
+            binding.btnDone.text = getString(R.string.save_changes)
             binding.btnDone.setIconResource(R.drawable.ic_edit)
             viewModel.loadExpense(editingExpenseId).observe(viewLifecycleOwner) { expense ->
                 expense ?: return@observe
@@ -72,13 +73,13 @@ class AddExpenseFragment : Fragment() {
                 prefillFields(expense)
             }
         } else {
-            binding.tvScreenTitle.text = "Add Expense"
+            binding.tvScreenTitle.text = getString(R.string.add_expense)
         }
     }
 
     private fun prefillFields(expense: Expense) {
         // Amount
-        val amountText = "₹ ${String.format("%.2f", expense.amount)}"
+        val amountText = getString(R.string.rupee_s, String.format("%.2f", expense.amount))
         isFormatting = true
         binding.etAmount.setText(amountText)
         binding.etAmount.setSelection(amountText.length)
@@ -103,39 +104,6 @@ class AddExpenseFragment : Fragment() {
     // ─────────────────────────────────────────────────────────────────────
     private val PLACEHOLDER = "₹ 0.00"
     private var isFormatting = false
-
-    private fun formatAmount(input: String): String {
-        var cleanString = input.replace(Regex("[^\\d.]"), "")
-
-        val firstDotIndex = cleanString.indexOf('.')
-        if (firstDotIndex != -1) {
-            val afterDot = cleanString.substring(firstDotIndex + 1).replace(".", "")
-            cleanString = cleanString.substring(0, firstDotIndex + 1) + afterDot
-        }
-
-        val dotIndex = cleanString.indexOf('.')
-        if (dotIndex != -1 && cleanString.length - dotIndex - 1 > 2) {
-            cleanString = cleanString.substring(0, dotIndex + 3)
-        }
-
-        if (cleanString.startsWith("0") && cleanString.length > 1 && !cleanString.startsWith("0.")) {
-            cleanString = cleanString.trimStart('0')
-            if (cleanString.isEmpty() || cleanString.startsWith(".")) {
-                cleanString = "0" + cleanString
-            }
-        } else if (cleanString == ".") {
-            cleanString = "0."
-        }
-
-        if (cleanString.isEmpty()) return ""
-
-        val value = cleanString.toDoubleOrNull() ?: 0.0
-        if (value > 10000000.0) {
-            cleanString = "10000000"
-        }
-
-        return "₹ $cleanString"
-    }
 
     private fun setupAmountField() {
         val colorEntered = ContextCompat.getColor(requireContext(), R.color.primary)
@@ -189,7 +157,7 @@ class AddExpenseFragment : Fragment() {
                     return
                 }
 
-                val formatted = formatAmount(textToFormat)
+                val formatted = CurrencyFormatter.formatAmount(textToFormat)
 
                 if (formatted.isEmpty()) {
                     isFormatting = true

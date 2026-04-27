@@ -4,16 +4,16 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.smartexpense.ai.SmartExpenseApp
-import com.smartexpense.ai.data.db.Budget
+import com.smartexpense.ai.domain.model.Budget
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class BudgetLimitsViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = (application as SmartExpenseApp).repository
-    
-    val currentBudget = repository.getLatestBudget().stateIn(
+    private val useCases = (application as SmartExpenseApp).useCases
+
+    val currentBudget = useCases.getLatestBudget().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = null
@@ -33,9 +33,9 @@ class BudgetLimitsViewModel(application: Application) : AndroidViewModel(applica
                 )
             }
             if (existing != null && existing.id.toInt() != 0 && newBudget.id.toInt() != 0) {
-                 repository.updateBudget(newBudget)
+                useCases.updateBudget(newBudget)
             } else {
-                 repository.setBudget(newBudget)
+                useCases.setBudget(newBudget)
             }
         }
     }

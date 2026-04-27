@@ -1,7 +1,7 @@
 package com.smartexpense.ai.service.insights
 
-import com.smartexpense.ai.data.db.CategoryTotal
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.CategoryTotal
+import com.smartexpense.ai.domain.model.Expense
 import com.smartexpense.ai.util.CurrencyFormatter
 
 data class InsightCard(

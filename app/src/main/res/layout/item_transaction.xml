@@ -5,7 +5,7 @@
     <!-- Variables defined but unused, state managed programmatically in adapter -->
     <data>
         <import type="android.view.View"/>
-        <variable name="expense" type="com.smartexpense.ai.data.db.Expense" />
+        <variable name="expense" type="com.smartexpense.ai.domain.model.Expense" />
         <variable name="isExpanded" type="boolean" />
     </data>
 

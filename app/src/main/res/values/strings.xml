@@ -98,4 +98,7 @@
     <string name="amount_format">₹%1$s</string>
     <string name="amount_negative_format">- ₹%1$s</string>
     <string name="amount_positive_format">+ ₹%1$s</string>
+    <string name="edit_transaction">Edit Transaction</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="rupee_s">₹ %1$s</string>
 </resources>

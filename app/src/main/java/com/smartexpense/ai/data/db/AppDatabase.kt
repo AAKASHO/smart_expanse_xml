@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.smartexpense.ai.data.model.BudgetEntity
+import com.smartexpense.ai.data.model.ExpenseEntity
 
 @Database(
-    entities = [Expense::class, Budget::class],
-    version = 1,
+    entities = [ExpenseEntity::class, BudgetEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

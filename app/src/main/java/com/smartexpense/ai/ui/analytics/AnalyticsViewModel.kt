@@ -12,7 +12,7 @@ import com.smartexpense.ai.service.insights.InsightsEngine
 enum class DateFilter { MONTHLY, WEEKLY }
 
 class AnalyticsViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = (application as SmartExpenseApp).repository
+    private val useCases = (application as SmartExpenseApp).useCases
     val insightsEngine = InsightsEngine()
 
     private val _dateFilter = MutableLiveData(DateFilter.MONTHLY)
@@ -23,25 +23,25 @@ class AnalyticsViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     val spendingTotal = _dateFilter.switchMap { filter ->
-        if (filter == DateFilter.MONTHLY) repository.getCurrentMonthSpending().asLiveData()
-        else repository.getWeeklySpending().asLiveData()
+        if (filter == DateFilter.MONTHLY) useCases.getCurrentMonthSpending().asLiveData()
+        else useCases.getWeeklySpending().asLiveData()
     }
 
     val categoryTotals = _dateFilter.switchMap { filter ->
-        if (filter == DateFilter.MONTHLY) repository.getCurrentMonthCategoryTotals().asLiveData()
-        else repository.getWeeklyCategoryTotals().asLiveData()
+        if (filter == DateFilter.MONTHLY) useCases.getCurrentMonthCategoryTotals().asLiveData()
+        else useCases.getWeeklyCategoryTotals().asLiveData()
     }
 
     val dailyTotals = _dateFilter.switchMap { filter ->
-        if (filter == DateFilter.MONTHLY) repository.getCurrentMonthDailyTotals().asLiveData()
-        else repository.getWeeklyDailyTotals().asLiveData()
+        if (filter == DateFilter.MONTHLY) useCases.getCurrentMonthDailyTotals().asLiveData()
+        else useCases.getWeeklyDailyTotals().asLiveData()
     }
 
     val expenses = _dateFilter.switchMap { filter ->
-        if (filter == DateFilter.MONTHLY) repository.getCurrentMonthExpenses().asLiveData()
-        else repository.getWeeklyExpenses().asLiveData()
+        if (filter == DateFilter.MONTHLY) useCases.getCurrentMonthExpenses().asLiveData()
+        else useCases.getWeeklyExpenses().asLiveData()
     }
 
-    val previousMonthSpending = repository.getPreviousMonthSpending().asLiveData()
-    val currentBudget = repository.getLatestBudget().asLiveData()
+    val previousMonthSpending = useCases.getPreviousMonthSpending().asLiveData()
+    val currentBudget = useCases.getLatestBudget().asLiveData()
 }

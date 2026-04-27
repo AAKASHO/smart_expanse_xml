@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="insight"
+            type="com.smartexpense.ai.service.insights.InsightCard" />
+    </data>
+
+    <!-- Fixed width so they scroll horizontally like a carousel -->
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="2dp"
+        bindingRadius="@{@dimen/size16}"
+        bindingStartColor="@{@android:color/white}"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Background and icon handled dynamically in Adapter -->
+            <ImageView
+                android:id="@+id/iv_insight_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_progress_bar" 
+                android:padding="8dp"
+                android:src="@drawable/ic_insights" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_insight_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.05"
+                android:textAllCaps="true"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:text="TREND" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_insight_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{insight.title}"
+            android:textColor="@color/on_surface"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Budget Warning" />
+
+        <TextView
+            android:id="@+id/tv_insight_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{insight.description}"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="13sp"
+            tools:text="You have exceeded your monthly budget." />
+    </LinearLayout>
+</layout>

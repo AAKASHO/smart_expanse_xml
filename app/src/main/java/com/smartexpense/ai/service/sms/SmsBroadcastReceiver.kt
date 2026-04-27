@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import com.smartexpense.ai.SmartExpenseApp
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.Expense
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,8 +30,8 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
         val app = context.applicationContext as SmartExpenseApp
         CoroutineScope(Dispatchers.IO).launch {
-            app.repository.addExpense(parsedExpense)
-            com.smartexpense.ai.service.notification.NotificationHelper(context).checkBudgetAndNotify(app.repository)
+            app.useCases.addExpense(parsedExpense)
+            com.smartexpense.ai.service.notification.NotificationHelper(context).checkBudgetAndNotify(app.useCases)
         }
     }
 
@@ -108,7 +108,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
         return when {
             text.containsAny("zomato", "swiggy", "food", "restaurant", "cafe", "pizza", "burger", "kitchen", "lunch", "dinner", "breakfast") -> "Food"
             text.containsAny("uber", "ola", "taxi", "cab", "petrol", "fuel", "travel", "flight", "train", "bus", "metro") -> "Travel"
-            text.containsAny("electricity", "water", "gas", "bill", "recharge", "airtel", "jio", "vodafone", "broadband", "rent") -> "Bills"
+            text.containsAny("electricity", "water", "gas", "bill", "recharge", "airtel", "jio", "vodafone", "broadband", "rent", "tpddl") -> "Bills"
             text.containsAny("amazon", "flipkart", "myntra", "shopping", "mall", "store", "shop", "purchase") -> "Shopping"
             else -> "Other"
         }
@@ -117,14 +117,14 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
     private fun guessPaymentMethod(message: String): String {
         val text = message.lowercase()
         return when {
-            text.contains("upi") || text.contains("vpa") -> "UPI"
-            text.contains("card") || text.contains("credit") || text.contains("debit") -> "Card"
+            text.contains("upi", true) || text.contains("vpa", true) -> "UPI"
+            text.contains("card", true) || text.contains("credit", true) || text.contains("debit", true) -> "Card"
             text.contains("cash") -> "Cash"
             else -> "UPI"
         }
     }
 
     private fun String.containsAny(vararg keywords: String): Boolean {
-        return keywords.any { this.contains(it) }
+        return keywords.any { this.contains(it, true) }
     }
 }

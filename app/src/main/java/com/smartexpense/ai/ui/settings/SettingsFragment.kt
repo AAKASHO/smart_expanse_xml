@@ -43,7 +43,7 @@ class SettingsFragment : Fragment() {
             prefs.edit().putBoolean("sms_parsing_enabled", true).apply()
             Toast.makeText(requireContext(), "SMS parsing enabled ✅", Toast.LENGTH_SHORT).show()
         } else {
-            view?.findViewById<SwitchMaterial>(R.id.switch_sms)?.isChecked = false
+            binding.switchSms.isChecked = false
             Toast.makeText(requireContext(), "SMS permission denied", Toast.LENGTH_SHORT).show()
         }
     }
@@ -57,6 +57,7 @@ class SettingsFragment : Fragment() {
     }
 
     private var _binding: com.smartexpense.ai.databinding.FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -76,15 +77,14 @@ class SettingsFragment : Fragment() {
         prefs = requireContext().getSharedPreferences("smart_expense_prefs", Context.MODE_PRIVATE)
         notificationHelper = NotificationHelper(requireContext())
 
-        setupToggles(view)
-        setupButtons(view)
+        setupToggles()
+        setupButtons()
     }
 
-    private fun setupToggles(view: View) {
+    private fun setupToggles() {
         // SMS Parsing toggle
-        val switchSms = view.findViewById<SwitchMaterial>(R.id.switch_sms)
-        switchSms.isChecked = prefs.getBoolean("sms_parsing_enabled", false)
-        switchSms.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchSms.isChecked = prefs.getBoolean("sms_parsing_enabled", false)
+        binding.switchSms.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 requestSmsPermission()
             } else {
@@ -93,9 +93,8 @@ class SettingsFragment : Fragment() {
         }
 
         // Budget Alerts toggle
-        val switchBudget = view.findViewById<SwitchMaterial>(R.id.switch_budget_alerts)
-        switchBudget.isChecked = prefs.getBoolean("budget_alerts_enabled", true)
-        switchBudget.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchBudgetAlerts.isChecked = prefs.getBoolean("budget_alerts_enabled", true)
+        binding.switchBudgetAlerts.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("budget_alerts_enabled", isChecked).apply()
             if (isChecked) {
                 requestNotificationPermission()
@@ -103,9 +102,8 @@ class SettingsFragment : Fragment() {
         }
 
         // Daily Reminders toggle
-        val switchReminders = view.findViewById<SwitchMaterial>(R.id.switch_reminders)
-        switchReminders.isChecked = prefs.getBoolean("daily_reminders_enabled", false)
-        switchReminders.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchReminders.isChecked = prefs.getBoolean("daily_reminders_enabled", false)
+        binding.switchReminders.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("daily_reminders_enabled", isChecked).apply()
             if (isChecked) {
                 requestNotificationPermission()
@@ -117,24 +115,24 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setupButtons(view: View) {
+    private fun setupButtons() {
         // Google Sign-In
-        view.findViewById<View>(R.id.btn_google_signin).setOnClickListener {
+        binding.btnGoogleSignin.setOnClickListener {
             Toast.makeText(requireContext(), "Google Sign-In requires Firebase setup. Add google-services.json first.", Toast.LENGTH_LONG).show()
         }
 
         // Manage Budget Limit
-        view.findViewById<View>(R.id.btn_manage_budget).setOnClickListener {
+        binding.btnManageBudget.setOnClickListener {
             findNavController().navigate(R.id.nav_budget_limits)
         }
 
         // Export CSV
-        view.findViewById<View>(R.id.btn_export).setOnClickListener {
+        binding.btnExport.setOnClickListener {
             exportToCsv()
         }
 
         // Clear Cache
-        view.findViewById<View>(R.id.btn_clear_cache).setOnClickListener {
+        binding.btnClearCache.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Clear All Data?")
                 .setMessage("This will delete all your expense records. This action cannot be undone.")
@@ -173,7 +171,7 @@ class SettingsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val expenses = withContext(Dispatchers.IO) {
-                    app.repository.getAllExpenses().first()
+                    app.useCases.getAllExpenses().first()
                 }
 
                 if (expenses.isEmpty()) {

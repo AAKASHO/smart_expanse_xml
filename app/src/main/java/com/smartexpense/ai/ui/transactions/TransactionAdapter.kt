@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.smartexpense.ai.R
 import com.smartexpense.ai.data.ExpenseCategories
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.Expense
 import com.smartexpense.ai.util.CurrencyFormatter
 import com.smartexpense.ai.util.DateFormatter
 import com.smartexpense.ai.databinding.ItemTransactionBinding
@@ -17,16 +17,7 @@ import com.smartexpense.ai.databinding.ItemTransactionHeaderBinding
 import com.smartexpense.ai.databinding.ItemAiFooterBinding
 import com.smartexpense.ai.util.BindingAdapterUtils
 
-sealed class TransactionListItem {
-    data class Header(val title: String) : TransactionListItem()
-    data class Transaction(val expense: Expense) : TransactionListItem()
-    /** Singleton footer injected at the end of a non-empty list */
-    object AiFooter : TransactionListItem()
-}
-
-class TransactionAdapter(
-    private val onEditClicked: (Expense) -> Unit
-) : ListAdapter<TransactionListItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class TransactionAdapter(private val onEditClicked: (Expense) -> Unit) : ListAdapter<TransactionAdapter.TransactionListItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     var expandedExpenseId: Long? = null
 
@@ -207,5 +198,12 @@ class TransactionAdapter(
             items.add(TransactionListItem.AiFooter)
             return items
         }
+    }
+
+    sealed class TransactionListItem {
+        data class Header(val title: String) : TransactionListItem()
+        data class Transaction(val expense: Expense) : TransactionListItem()
+        /** Singleton footer injected at the end of a non-empty list */
+        object AiFooter : TransactionListItem()
     }
 }

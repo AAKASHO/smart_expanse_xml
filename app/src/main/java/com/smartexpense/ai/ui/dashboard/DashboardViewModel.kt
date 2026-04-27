@@ -7,13 +7,13 @@ import com.smartexpense.ai.SmartExpenseApp
 import com.smartexpense.ai.service.insights.InsightsEngine
 
 class DashboardViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = (application as SmartExpenseApp).repository
+    private val useCases = (application as SmartExpenseApp).useCases
     val insightsEngine = InsightsEngine()
 
-    val currentMonthSpending = repository.getCurrentMonthSpending().asLiveData()
-    val currentBudget = repository.getLatestBudget().asLiveData()
-    val recentExpenses = repository.getRecentExpenses(5).asLiveData()
-    val categoryTotals = repository.getCurrentMonthCategoryTotals().asLiveData()
-    val previousMonthSpending = repository.getPreviousMonthSpending().asLiveData()
-    val currentMonthExpenses = repository.getCurrentMonthExpenses().asLiveData()
+    val currentMonthSpending = useCases.getCurrentMonthSpending().asLiveData()
+    val currentBudget = useCases.getLatestBudget().asLiveData()
+    val recentExpenses = useCases.getRecentExpenses(5).asLiveData()
+    val categoryTotals = useCases.getCurrentMonthCategoryTotals().asLiveData()
+    val previousMonthSpending = useCases.getPreviousMonthSpending().asLiveData()
+    val currentMonthExpenses = useCases.getCurrentMonthExpenses().asLiveData()
 }

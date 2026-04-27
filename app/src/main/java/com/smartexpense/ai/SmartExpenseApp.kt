@@ -5,13 +5,42 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import com.smartexpense.ai.data.db.AppDatabase
-import com.smartexpense.ai.data.repository.ExpenseRepository
+import com.smartexpense.ai.data.repository.ExpenseRepositoryImpl
+import com.smartexpense.ai.domain.usecase.*
 
 class SmartExpenseApp : Application() {
 
     val database by lazy { AppDatabase.getInstance(this) }
+    
     val repository by lazy {
-        ExpenseRepository(database.expenseDao(), database.budgetDao())
+        ExpenseRepositoryImpl(database.expenseDao(), database.budgetDao())
+    }
+
+    val useCases by lazy {
+        ExpenseUseCases(
+            addExpense = AddExpenseUseCase(repository),
+            updateExpense = UpdateExpenseUseCase(repository),
+            deleteExpense = DeleteExpenseUseCase(repository),
+            getAllExpenses = GetAllExpensesUseCase(repository),
+            getRecentExpenses = GetRecentExpensesUseCase(repository),
+            getExpensesByCategory = GetExpensesByCategoryUseCase(repository),
+            searchExpenses = SearchExpensesUseCase(repository),
+            getCurrentMonthSpending = GetCurrentMonthSpendingUseCase(repository),
+            getCurrentBudget = GetCurrentBudgetUseCase(repository),
+            getLatestBudget = GetLatestBudgetUseCase(repository),
+            getCurrentMonthCategoryTotals = GetCurrentMonthCategoryTotalsUseCase(repository),
+            getPreviousMonthSpending = GetPreviousMonthSpendingUseCase(repository),
+            getCurrentMonthExpenses = GetCurrentMonthExpensesUseCase(repository),
+            getExpenseById = GetExpenseByIdUseCase(repository),
+            getWeeklySpending = GetWeeklySpendingUseCase(repository),
+            getWeeklyCategoryTotals = GetWeeklyCategoryTotalsUseCase(repository),
+            getWeeklyDailyTotals = GetWeeklyDailyTotalsUseCase(repository),
+            getWeeklyExpenses = GetWeeklyExpensesUseCase(repository),
+            getCurrentMonthDailyTotals = GetCurrentMonthDailyTotalsUseCase(repository),
+            getCurrentDaySpending = GetCurrentDaySpendingUseCase(repository),
+            setBudget = SetBudgetUseCase(repository),
+            updateBudget = UpdateBudgetUseCase(repository)
+        )
     }
 
     override fun onCreate() {

@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.smartexpense.ai.R
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.Expense
 import com.smartexpense.ai.databinding.FragmentDashboardBinding
 import com.smartexpense.ai.service.insights.InsightType
 import com.smartexpense.ai.util.CurrencyFormatter
@@ -22,10 +22,9 @@ class DashboardFragment : Fragment() {
     private lateinit var viewModel: DashboardViewModel
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
+    private lateinit var insightAdapter: InsightAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,21 +33,32 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
 
+        setupInsightsRecyclerView()
         setupObservers()
         setupClickListeners()
+    }
+    
+    private fun setupInsightsRecyclerView() {
+        insightAdapter = InsightAdapter()
+        binding.rvInsights.apply {
+            adapter = insightAdapter
+            val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+        }
     }
 
     private fun setupClickListeners() {
         binding.btnViewAll.setOnClickListener {
-            val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
-            bottomNav.selectedItemId = R.id.nav_transactions
+            (requireActivity() as com.smartexpense.ai.MainActivity).navigateToTab(R.id.nav_transactions)
         }
         binding.heroCard.setOnClickListener {
             findNavController().navigate(R.id.nav_budget_limits)
         }
         binding.tvViewAllInsights.setOnClickListener {
-            val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
-            bottomNav.selectedItemId = R.id.nav_analytics
+            (requireActivity() as com.smartexpense.ai.MainActivity).navigateToTab(R.id.nav_analytics)
+        }
+        binding.ivProfile.setOnClickListener {
+            (requireActivity() as com.smartexpense.ai.MainActivity).navigateToTab(R.id.nav_settings)
         }
     }
 
@@ -96,33 +106,10 @@ class DashboardFragment : Fragment() {
                 prevSpending, emptyList()
             )
 
-            // Reset visibility
-            binding.cardBudgetWarning.visibility = View.GONE
-            binding.cardTrend.visibility = View.GONE
-            binding.cardTopCategory.visibility = View.GONE
-
-            var hasInsights = false
-            insights.forEach { insight ->
-                when (insight.type) {
-                    InsightType.BUDGET_WARNING -> {
-                        binding.cardBudgetWarning.visibility = View.VISIBLE
-                        binding.tvBudgetWarningDesc.text = insight.description
-                        hasInsights = true
-                    }
-                    InsightType.TREND_DETECTION -> {
-                        binding.cardTrend.visibility = View.VISIBLE
-                        binding.tvTrendDesc.text = insight.description
-                        hasInsights = true
-                    }
-                    InsightType.TOP_CATEGORY -> {
-                        binding.cardTopCategory.visibility = View.VISIBLE
-                        binding.tvTopCategoryDesc.text = insight.description
-                        hasInsights = true
-                    }
-                    else -> {}
-                }
-            }
-
+            insightAdapter.submitList(insights)
+            
+            val hasInsights = insights.isNotEmpty()
+            binding.rvInsights.visibility = if (hasInsights) View.VISIBLE else View.GONE
             binding.tvNoInsights.visibility = if (hasInsights) View.GONE else View.VISIBLE
         }
     }
@@ -168,20 +155,16 @@ class DashboardFragment : Fragment() {
     }
 
     private fun createTransactionRow(expense: Expense): View {
-        val row = LayoutInflater.from(requireContext())
-            .inflate(R.layout.item_transaction_simple, null)
+        val rowBinding = com.smartexpense.ai.databinding.ItemTransactionSimpleBinding.inflate(LayoutInflater.from(requireContext()), null, false)
 
         val iconRes = com.smartexpense.ai.data.ExpenseCategories.ALL.find { it.label == expense.category }?.iconRes ?: com.smartexpense.ai.R.drawable.ic_other
-        row.findViewById<android.widget.ImageView>(R.id.iv_category_icon).setImageResource(iconRes)
+        rowBinding.ivCategoryIcon.setImageResource(iconRes)
 
-        row.findViewById<TextView>(R.id.tv_merchant).text =
-            expense.merchant.ifEmpty { expense.category }
-        row.findViewById<TextView>(R.id.tv_details).text =
-            "${DateFormatter.getRelativeDate(expense.date)} • ${expense.category}"
-        row.findViewById<TextView>(R.id.tv_amount).text =
-            "- ₹${CurrencyFormatter.format(expense.amount)}"
+        rowBinding.tvMerchant.text = expense.merchant.ifEmpty { expense.category }
+        rowBinding.tvDetails.text = "${DateFormatter.getRelativeDate(expense.date)} • ${expense.category}"
+        rowBinding.tvAmount.text = "- ₹${CurrencyFormatter.format(expense.amount)}"
 
-        return row
+        return rowBinding.root
     }
 
     override fun onDestroyView() {

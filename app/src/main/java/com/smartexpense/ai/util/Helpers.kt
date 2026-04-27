@@ -17,6 +17,39 @@ object CurrencyFormatter {
     fun formatWithSymbol(amount: Double): String {
         return "₹${format(amount)}"
     }
+
+    fun formatAmount(input: String): String {
+        var cleanString = input.replace(Regex("[^\\d.]"), "")
+
+        val firstDotIndex = cleanString.indexOf('.')
+        if (firstDotIndex != -1) {
+            val afterDot = cleanString.substring(firstDotIndex + 1).replace(".", "")
+            cleanString = cleanString.substring(0, firstDotIndex + 1) + afterDot
+        }
+
+        val dotIndex = cleanString.indexOf('.')
+        if (dotIndex != -1 && cleanString.length - dotIndex - 1 > 2) {
+            cleanString = cleanString.substring(0, dotIndex + 3)
+        }
+
+        if (cleanString.startsWith("0") && cleanString.length > 1 && !cleanString.startsWith("0.")) {
+            cleanString = cleanString.trimStart('0')
+            if (cleanString.isEmpty() || cleanString.startsWith(".")) {
+                cleanString = "0" + cleanString
+            }
+        } else if (cleanString == ".") {
+            cleanString = "0."
+        }
+
+        if (cleanString.isEmpty()) return ""
+
+        val value = cleanString.toDoubleOrNull() ?: 0.0
+        if (value > 10000000.0) {
+            cleanString = "10000000"
+        }
+
+        return "₹ $cleanString"
+    }
 }
 
 object DateFormatter {

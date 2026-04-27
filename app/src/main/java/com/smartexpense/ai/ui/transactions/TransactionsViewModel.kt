@@ -7,27 +7,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import com.smartexpense.ai.SmartExpenseApp
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.Expense
 
 class TransactionsViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = (application as SmartExpenseApp).repository
+    private val useCases = (application as SmartExpenseApp).useCases
 
     private val _searchQuery = MutableLiveData("")
     private val _categoryFilter = MutableLiveData<String?>(null)
 
-    val allExpenses = repository.getAllExpenses().asLiveData()
+    val allExpenses = useCases.getAllExpenses().asLiveData()
 
     val filteredExpenses: LiveData<List<Expense>> = _searchQuery.switchMap { query ->
         if (query.isNullOrBlank()) {
             _categoryFilter.switchMap { category ->
                 if (category.isNullOrBlank()) {
-                    repository.getAllExpenses().asLiveData()
+                    useCases.getAllExpenses().asLiveData()
                 } else {
-                    repository.getByCategory(category).asLiveData()
+                    useCases.getExpensesByCategory(category).asLiveData()
                 }
             }
         } else {
-            repository.searchExpenses(query).asLiveData()
+            useCases.searchExpenses(query).asLiveData()
         }
     }
 

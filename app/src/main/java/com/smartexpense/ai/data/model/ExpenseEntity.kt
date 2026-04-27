@@ -1,10 +1,10 @@
-package com.smartexpense.ai.data.db
+package com.smartexpense.ai.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "expenses")
-data class Expense(
+data class ExpenseEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val amount: Double,

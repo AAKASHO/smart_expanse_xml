@@ -9,7 +9,7 @@ import androidx.work.*
 import com.smartexpense.ai.MainActivity
 import com.smartexpense.ai.R
 import com.smartexpense.ai.SmartExpenseApp
-import com.smartexpense.ai.data.repository.ExpenseRepository
+import com.smartexpense.ai.domain.usecase.ExpenseUseCases
 import kotlinx.coroutines.flow.firstOrNull
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -33,6 +33,7 @@ class NotificationHelper(private val context: Context) {
             .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .addTag("daily_reminder")
             .build()
+
 
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
@@ -69,25 +70,25 @@ class NotificationHelper(private val context: Context) {
         notificationManager.notify(2001, notification)
     }
 
-    suspend fun checkBudgetAndNotify(repository: ExpenseRepository) {
+    suspend fun checkBudgetAndNotify(useCases: ExpenseUseCases) {
         val prefs = context.getSharedPreferences("smart_expense_prefs", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("budget_alerts_enabled", true)) return
 
         // Check Monthly Limit
-        val currentMonthSpending = repository.getCurrentMonthSpending().firstOrNull() ?: 0.0
-        val currentBudget = repository.getCurrentBudget().firstOrNull()?.monthlyLimit ?: 0.0
+        val currentMonthSpending = useCases.getCurrentMonthSpending().firstOrNull() ?: 0.0
+        val currentBudget = useCases.getCurrentBudget().firstOrNull()?.monthlyLimit ?: 0.0
 
         if (currentBudget > 0) {
             val percentageUsed = ((currentMonthSpending / currentBudget) * 100).toInt()
             if (percentageUsed >= 80) {
-                showBudgetAlert(percentageUsed)
+                showBudgetAlert(`percentageUsed`)
             }
         }
 
         // Check Daily Limit
         val dailyLimit = prefs.getFloat("daily_budget_limit", -1f)
         if (dailyLimit > 0) {
-            val currentDaySpending = repository.getCurrentDaySpending().firstOrNull() ?: 0.0
+            val currentDaySpending = useCases.getCurrentDaySpending().firstOrNull() ?: 0.0
             if (currentDaySpending >= dailyLimit) {
                 showDailyBudgetAlert(dailyLimit.toInt())
             }

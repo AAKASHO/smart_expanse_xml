@@ -6,27 +6,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.smartexpense.ai.SmartExpenseApp
-import com.smartexpense.ai.data.db.Expense
+import com.smartexpense.ai.domain.model.Expense
 import com.smartexpense.ai.service.notification.NotificationHelper
 import kotlinx.coroutines.launch
 
 class AddExpenseViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = (application as SmartExpenseApp).repository
+    private val useCases = (application as SmartExpenseApp).useCases
 
     fun addExpense(expense: Expense) {
         viewModelScope.launch {
-            repository.addExpense(expense)
-            NotificationHelper(getApplication()).checkBudgetAndNotify(repository)
+            useCases.addExpense(expense)
+            NotificationHelper(getApplication()).checkBudgetAndNotify(useCases)
         }
     }
 
     fun updateExpense(expense: Expense) {
         viewModelScope.launch {
-            repository.updateExpense(expense)
-            NotificationHelper(getApplication()).checkBudgetAndNotify(repository)
+            useCases.updateExpense(expense)
+            NotificationHelper(getApplication()).checkBudgetAndNotify(useCases)
         }
     }
 
     fun loadExpense(id: Long): LiveData<Expense?> =
-        repository.getById(id).asLiveData()
+        useCases.getExpenseById(id).asLiveData()
 }
