@@ -30,8 +30,17 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
         val app = context.applicationContext as SmartExpenseApp
         CoroutineScope(Dispatchers.IO).launch {
-            app.useCases.addExpense(parsedExpense)
-            com.smartexpense.ai.service.notification.NotificationHelper(context).checkBudgetAndNotify(app.useCases)
+            // Save as PENDING — user must confirm via VerifyTransactionActivity
+            val pendingExpense = parsedExpense.copy(isPending = true)
+            val expenseId = app.useCases.addExpense(pendingExpense)
+
+            // Fire the verification notification
+            com.smartexpense.ai.service.notification.NotificationHelper(context)
+                .showTransactionVerificationNotification(
+                    expenseId = expenseId,
+                    amount = parsedExpense.amount,
+                    merchant = parsedExpense.merchant
+                )
         }
     }
 

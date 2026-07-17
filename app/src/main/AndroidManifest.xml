@@ -45,6 +45,23 @@
             </intent-filter>
         </receiver>
 
+        <!-- Delete Pending Expense Receiver (Not a Transaction action) -->
+        <receiver
+            android:name=".service.notification.DeletePendingExpenseBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.smartexpense.ai.ACTION_DELETE_PENDING" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Verify Transaction Activity (opened from notification) -->
+        <activity
+            android:name=".service.transaction.VerifyTransactionActivity"
+            android:exported="false"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.SmartExpense" />
+
         <!-- Notification Worker -->
         <provider
             android:name="androidx.startup.InitializationProvider"

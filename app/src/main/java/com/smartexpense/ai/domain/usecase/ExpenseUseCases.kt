@@ -29,7 +29,10 @@ data class ExpenseUseCases(
     val getCurrentMonthDailyTotals: GetCurrentMonthDailyTotalsUseCase,
     val getCurrentDaySpending: GetCurrentDaySpendingUseCase,
     val setBudget: SetBudgetUseCase,
-    val updateBudget: UpdateBudgetUseCase
+    val updateBudget: UpdateBudgetUseCase,
+    val getCustomCategories: GetCustomCategoriesUseCase,
+    val addCustomCategory: AddCustomCategoryUseCase,
+    val deleteCustomCategory: DeleteCustomCategoryUseCase
 )
 
 class AddExpenseUseCase(private val repository: ExpenseRepository) {

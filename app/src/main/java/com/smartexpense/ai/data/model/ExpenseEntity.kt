@@ -14,5 +14,6 @@ data class ExpenseEntity(
     val date: Long, // timestamp in millis
     val paymentMethod: String = "UPI", // UPI, Cash, Card
     val isAutoSynced: Boolean = false,
+    val isPending: Boolean = false,   // true = awaiting user confirmation (SMS flow)
     val createdAt: Long = System.currentTimeMillis()
 )

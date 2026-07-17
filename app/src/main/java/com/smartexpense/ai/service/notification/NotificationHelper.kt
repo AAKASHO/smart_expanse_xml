@@ -10,6 +10,7 @@ import com.smartexpense.ai.MainActivity
 import com.smartexpense.ai.R
 import com.smartexpense.ai.SmartExpenseApp
 import com.smartexpense.ai.domain.usecase.ExpenseUseCases
+import com.smartexpense.ai.service.transaction.VerifyTransactionActivity
 import kotlinx.coroutines.flow.firstOrNull
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -34,7 +35,6 @@ class NotificationHelper(private val context: Context) {
             .addTag("daily_reminder")
             .build()
 
-
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 "daily_reminder",
@@ -45,6 +45,74 @@ class NotificationHelper(private val context: Context) {
 
     fun cancelDailyReminder() {
         WorkManager.getInstance(context).cancelUniqueWork("daily_reminder")
+    }
+
+    /**
+     * Shows a rich notification prompting the user to confirm an auto-parsed SMS transaction.
+     * Action 1: Opens [VerifyTransactionActivity] to categorise and confirm.
+     * Action 2: Fires [DeletePendingExpenseBroadcastReceiver] to silently delete the pending row.
+     */
+    fun showTransactionVerificationNotification(
+        expenseId: Long,
+        amount: Double,
+        merchant: String
+    ) {
+        val notificationId = (expenseId % Int.MAX_VALUE).toInt() + 3000
+
+        // Action 1: Yes, Categorize → open VerifyTransactionActivity
+        val verifyIntent = Intent(context, VerifyTransactionActivity::class.java).apply {
+            putExtra(VerifyTransactionActivity.EXTRA_EXPENSE_ID, expenseId)
+            putExtra(VerifyTransactionActivity.EXTRA_NOTIFICATION_ID, notificationId)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        val verifyPendingIntent = PendingIntent.getActivity(
+            context,
+            notificationId,
+            verifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // Action 2: Not a Transaction → delete pending row
+        val deleteIntent = Intent(context, DeletePendingExpenseBroadcastReceiver::class.java).apply {
+            action = DeletePendingExpenseBroadcastReceiver.ACTION_DELETE_PENDING
+            putExtra(DeletePendingExpenseBroadcastReceiver.EXTRA_EXPENSE_ID, expenseId)
+            putExtra(DeletePendingExpenseBroadcastReceiver.EXTRA_NOTIFICATION_ID, notificationId)
+        }
+        val deletePendingIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId + 1,
+            deleteIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val amountFormatted = "₹%.2f".format(amount)
+
+        val notification = NotificationCompat.Builder(context, SmartExpenseApp.CHANNEL_TRANSACTIONS)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(context.getString(R.string.txn_notification_title))
+            .setContentText(context.getString(R.string.txn_notification_body, amountFormatted, merchant))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(context.getString(R.string.txn_notification_body, amountFormatted, merchant))
+            )
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setContentIntent(verifyPendingIntent)
+            .addAction(
+                R.drawable.ic_add_circle,
+                context.getString(R.string.action_yes_categorize),
+                verifyPendingIntent
+            )
+            .addAction(
+                R.drawable.ic_other,
+                context.getString(R.string.action_not_transaction),
+                deletePendingIntent
+            )
+            .build()
+
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(notificationId, notification)
     }
 
     fun showBudgetAlert(percentageUsed: Int) {
@@ -81,7 +149,7 @@ class NotificationHelper(private val context: Context) {
         if (currentBudget > 0) {
             val percentageUsed = ((currentMonthSpending / currentBudget) * 100).toInt()
             if (percentageUsed >= 80) {
-                showBudgetAlert(`percentageUsed`)
+                showBudgetAlert(percentageUsed)
             }
         }
 
@@ -151,3 +219,4 @@ class ReminderWorker(
         return Result.success()
     }
 }
+

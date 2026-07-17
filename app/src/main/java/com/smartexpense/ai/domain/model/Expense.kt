@@ -9,5 +9,6 @@ data class Expense(
     val date: Long,
     val paymentMethod: String = "UPI",
     val isAutoSynced: Boolean = false,
+    val isPending: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 )

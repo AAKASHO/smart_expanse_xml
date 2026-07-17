@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SmartExpense"
 include(":app")
+include(":baselineprofile")

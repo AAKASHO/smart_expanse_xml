@@ -51,4 +51,10 @@
         android:label="Budget Limits"
         tools:layout="@layout/fragment_budget_limits" />
 
+    <dialog
+        android:id="@+id/nav_manage_categories"
+        android:name="com.smartexpense.ai.ui.categories.ManageCategoriesFragment"
+        android:label="Manage Categories"
+        tools:layout="@layout/fragment_manage_categories" />
+
 </navigation>

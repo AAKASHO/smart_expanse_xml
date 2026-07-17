@@ -1,9 +1,11 @@
 package com.smartexpense.ai.data.repository
 
 import com.smartexpense.ai.data.db.BudgetDao
+import com.smartexpense.ai.data.db.CustomCategoryDao
 import com.smartexpense.ai.data.db.ExpenseDao
 import com.smartexpense.ai.data.mapper.toDomain
 import com.smartexpense.ai.data.mapper.toEntity
+import com.smartexpense.ai.data.model.CustomCategoryEntity
 import com.smartexpense.ai.domain.model.Budget
 import com.smartexpense.ai.domain.model.CategoryTotal
 import com.smartexpense.ai.domain.model.DailyTotal
@@ -15,8 +17,14 @@ import java.util.Calendar
 
 class ExpenseRepositoryImpl(
     private val expenseDao: ExpenseDao,
-    private val budgetDao: BudgetDao
+    private val budgetDao: BudgetDao,
+    private val customCategoryDao: CustomCategoryDao
 ) : ExpenseRepository {
+
+    // ── Custom Categories ──────────────────────────────────────────────────
+    fun getCustomCategories(): Flow<List<CustomCategoryEntity>> = customCategoryDao.getAllCategories()
+    suspend fun addCustomCategory(entity: CustomCategoryEntity) = customCategoryDao.insert(entity)
+    suspend fun deleteCustomCategory(entity: CustomCategoryEntity) = customCategoryDao.delete(entity)
 
     override suspend fun addExpense(expense: Expense): Long = expenseDao.insert(expense.toEntity())
 

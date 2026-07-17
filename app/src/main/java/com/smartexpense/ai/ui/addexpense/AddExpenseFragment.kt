@@ -1,9 +1,11 @@
 package com.smartexpense.ai.ui.addexpense
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +15,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.smartexpense.ai.R
 import com.smartexpense.ai.data.ExpenseCategories
 import com.smartexpense.ai.domain.model.Expense
 import com.smartexpense.ai.databinding.FragmentAddExpenseBinding
+import com.smartexpense.ai.databinding.FragmentTransactionsBinding
+import com.smartexpense.ai.ui.transactions.TransactionsViewModel
 import com.smartexpense.ai.util.CurrencyFormatter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,9 +50,62 @@ class AddExpenseFragment : Fragment() {
     private lateinit var categoryAdapter: CategoryAdapter
     private val paymentViews = mutableMapOf<String, TextView>()
 
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("LifeCycleTest", "AddExpenseFragment onAttach")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("LifeCycleTest", "AddExpenseFragment onCreate")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("LifeCycleTest", "AddExpenseFragment onStart")
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.d("LifeCycleTest", "AddExpenseFragment onViewStateRestored")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("LifeCycleTest", "AddExpenseFragment onResume")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("LifeCycleTest", "AddExpenseFragment onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("LifeCycleTest", "AddExpenseFragment onDetach")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("LifeCycleTest", "AddExpenseFragment onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("LifeCycleTest", "AddExpenseFragment onStop")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("LifeCycleTest", "AddExpenseFragment onSaveInstanceState")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        Log.d("LifeCycleTest", "AddExpenseFragment onCreateView")
         _binding = FragmentAddExpenseBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -75,6 +137,9 @@ class AddExpenseFragment : Fragment() {
         } else {
             binding.tvScreenTitle.text = getString(R.string.add_expense)
         }
+
+        Log.d("LifeCycleTest", "AddExpenseFragment onViewCreated")
+
     }
 
     private fun prefillFields(expense: Expense) {
@@ -177,6 +242,7 @@ class AddExpenseFragment : Fragment() {
 
     // ── Category grid (RecyclerView + GridLayoutManager) ─────────────
     private fun setupCategoryGrid() {
+        // Initial setup with built-in categories
         categoryAdapter = CategoryAdapter(ExpenseCategories.ALL) { category ->
             selectedCategory = category.key
         }
@@ -186,6 +252,20 @@ class AddExpenseFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = categoryAdapter
             isNestedScrollingEnabled = false
+        }
+
+        // Dynamically rebuild adapter when custom categories are added/removed
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.allCategories.collect { categories ->
+                val currentKey = categoryAdapter.getSelectedKey()
+                categoryAdapter = CategoryAdapter(categories) { category ->
+                    selectedCategory = category.key
+                }
+                // Preserve selection across rebuilds
+                val keyToSelect = if (categories.any { it.key == currentKey }) currentKey else selectedCategory
+                categoryAdapter.setSelected(keyToSelect)
+                binding.rvCategories.adapter = categoryAdapter
+            }
         }
     }
 
@@ -300,5 +380,6 @@ class AddExpenseFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        Log.d("LifeCycleTest", "AddExpenseFragment onDestroyView")
     }
 }

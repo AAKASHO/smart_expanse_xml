@@ -1,7 +1,6 @@
 package com.smartexpense.ai.ui.settings
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -9,20 +8,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.datastore.dataStoreFile
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.smartexpense.ai.R
 import com.smartexpense.ai.SmartExpenseApp
+import com.smartexpense.ai.data.preferences.UserPreferencesRepository
 import com.smartexpense.ai.service.notification.NotificationHelper
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +31,7 @@ import java.util.*
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var prefs: android.content.SharedPreferences
+    private lateinit var userPreferences: UserPreferencesRepository
     private lateinit var notificationHelper: NotificationHelper
 
     private val smsPermissionLauncher = registerForActivityResult(
@@ -40,7 +39,7 @@ class SettingsFragment : Fragment() {
     ) { permissions ->
         val allGranted = permissions.all { it.value }
         if (allGranted) {
-            prefs.edit().putBoolean("sms_parsing_enabled", true).apply()
+            lifecycleScope.launch { userPreferences.setSmsParsingEnabled(true) }
             Toast.makeText(requireContext(), "SMS parsing enabled ✅", Toast.LENGTH_SHORT).show()
         } else {
             binding.switchSms.isChecked = false
@@ -74,7 +73,8 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        prefs = requireContext().getSharedPreferences("smart_expense_prefs", Context.MODE_PRIVATE)
+        val app = requireContext().applicationContext as SmartExpenseApp
+        userPreferences = app.userPreferences
         notificationHelper = NotificationHelper(requireContext())
 
         setupToggles()
@@ -82,29 +82,41 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupToggles() {
+        // ── Observe preferences from DataStore (Flow → never blocks main thread) ──
+        lifecycleScope.launch {
+            userPreferences.isSmsParsingEnabled.collectLatest { enabled ->
+                binding.switchSms.isChecked = enabled
+            }
+        }
+        lifecycleScope.launch {
+            userPreferences.isBudgetAlertsEnabled.collectLatest { enabled ->
+                binding.switchBudgetAlerts.isChecked = enabled
+            }
+        }
+        lifecycleScope.launch {
+            userPreferences.isDailyRemindersEnabled.collectLatest { enabled ->
+                binding.switchReminders.isChecked = enabled
+            }
+        }
+
         // SMS Parsing toggle
-        binding.switchSms.isChecked = prefs.getBoolean("sms_parsing_enabled", false)
         binding.switchSms.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 requestSmsPermission()
             } else {
-                prefs.edit().putBoolean("sms_parsing_enabled", false).apply()
+                lifecycleScope.launch { userPreferences.setSmsParsingEnabled(false) }
             }
         }
 
         // Budget Alerts toggle
-        binding.switchBudgetAlerts.isChecked = prefs.getBoolean("budget_alerts_enabled", true)
         binding.switchBudgetAlerts.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("budget_alerts_enabled", isChecked).apply()
-            if (isChecked) {
-                requestNotificationPermission()
-            }
+            lifecycleScope.launch { userPreferences.setBudgetAlertsEnabled(isChecked) }
+            if (isChecked) requestNotificationPermission()
         }
 
         // Daily Reminders toggle
-        binding.switchReminders.isChecked = prefs.getBoolean("daily_reminders_enabled", false)
         binding.switchReminders.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("daily_reminders_enabled", isChecked).apply()
+            lifecycleScope.launch { userPreferences.setDailyRemindersEnabled(isChecked) }
             if (isChecked) {
                 requestNotificationPermission()
                 notificationHelper.scheduleDailyReminder()
@@ -113,12 +125,18 @@ class SettingsFragment : Fragment() {
                 notificationHelper.cancelDailyReminder()
             }
         }
+
     }
 
     private fun setupButtons() {
         // Google Sign-In
         binding.btnGoogleSignin.setOnClickListener {
             Toast.makeText(requireContext(), "Google Sign-In requires Firebase setup. Add google-services.json first.", Toast.LENGTH_LONG).show()
+        }
+
+        // Manage Categories
+        binding.btnManageCategories.setOnClickListener {
+            findNavController().navigate(R.id.nav_manage_categories)
         }
 
         // Manage Budget Limit
@@ -149,7 +167,7 @@ class SettingsFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED
         ) {
-            prefs.edit().putBoolean("sms_parsing_enabled", true).apply()
+            lifecycleScope.launch { userPreferences.setSmsParsingEnabled(true) }
         } else {
             smsPermissionLauncher.launch(
                 arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS)

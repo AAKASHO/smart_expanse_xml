@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manage_category_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="56dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp">
+
+    <!-- Emoji / icon container -->
+    <FrameLayout
+        android:id="@+id/fl_icon"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_icon_circle">
+
+        <!-- Emoji text (custom categories) -->
+        <TextView
+            android:id="@+id/tv_emoji"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:visibility="gone" />
+
+        <!-- Drawable icon (built-in categories) -->
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- Label -->
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/on_surface"
+        android:textSize="15sp" />
+
+    <!-- Built-in lock badge -->
+    <TextView
+        android:id="@+id/tv_built_in_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_auto_sync_badge"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="3dp"
+        android:text="DEFAULT"
+        android:textColor="@color/primary"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- Delete button (custom categories only) -->
+    <ImageView
+        android:id="@+id/btn_delete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="Delete category"
+        android:padding="4dp"
+        android:src="@drawable/ic_edit"
+        android:tint="@color/error"
+        android:visibility="gone" />
+
+</LinearLayout>

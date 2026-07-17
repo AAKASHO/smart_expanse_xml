@@ -1,8 +1,10 @@
 package com.smartexpense.ai.ui.transactions
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,10 +31,21 @@ class TransactionsFragment : Fragment() {
     private var selectedFilter: String? = null
     private val chipViews = mutableMapOf<String?, TextView>()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("LifeCycleTest", "TransactionsFragment onAttach")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("LifeCycleTest", "TransactionsFragment onCreate")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
+        Log.d("LifeCycleTest", "TransactionsFragment onCreateView")
         return binding.root
     }
 
@@ -45,6 +58,53 @@ class TransactionsFragment : Fragment() {
         setupFilters()
         observeData()
         updateFilterUI()
+        Log.d("LifeCycleTest", "TransactionsFragment onViewCreated")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("LifeCycleTest", "TransactionsFragment onStart")
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.d("LifeCycleTest", "TransactionsFragment onViewStateRestored")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("LifeCycleTest", "TransactionsFragment onResume")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("LifeCycleTest", "TransactionsFragment onDestroyView")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("LifeCycleTest", "TransactionsFragment onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("LifeCycleTest", "TransactionsFragment onDetach")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("LifeCycleTest", "TransactionsFragment onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("LifeCycleTest", "TransactionsFragment onStop")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("LifeCycleTest", "TransactionsFragment onSaveInstanceState")
     }
 
     private fun setupRecyclerView() {

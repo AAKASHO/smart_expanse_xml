@@ -19,6 +19,7 @@ fun ExpenseEntity.toDomain(): Expense {
         date = date,
         paymentMethod = paymentMethod,
         isAutoSynced = isAutoSynced,
+        isPending = isPending,
         createdAt = createdAt
     )
 }
@@ -33,6 +34,7 @@ fun Expense.toEntity(): ExpenseEntity {
         date = date,
         paymentMethod = paymentMethod,
         isAutoSynced = isAutoSynced,
+        isPending = isPending,
         createdAt = createdAt
     )
 }

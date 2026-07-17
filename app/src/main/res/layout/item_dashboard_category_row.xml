@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data />
+
+    <!-- Holds two item_dashboard_category_card views side by side -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
+        <!-- Left card slot -->
+        <include
+            android:id="@+id/card_left"
+            layout="@layout/item_dashboard_category_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1" />
+
+        <!-- Right card slot — set INVISIBLE when odd count -->
+        <include
+            android:id="@+id/card_right"
+            layout="@layout/item_dashboard_category_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</layout>
